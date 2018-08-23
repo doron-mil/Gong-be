@@ -1,0 +1,32 @@
+{
+  "name": "gong-be",
+  "version": "1.0.0",
+  "scripts": {
+    "lint": "eslint server lib routes",
+    "lint:fix": "npm run lint -- --fix",
+    "start": "node server"
+  },
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "config": "^1.24.0",
+    "cors": "^2.8.1",
+    "express": "^4.14.0",
+    "helmet": "^3.2.0",
+    "mongoose": "^4.8.0",
+    "nodemon": "^1.11.0",
+    "winston": "^2.3.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "eslint": "^3.12.2",
+    "eslint-config-airbnb": "^13.0.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^2.2.3",
+    "eslint-plugin-react": "^6.8.0",
+    "mocha": "^3.2.0",
+    "proxyquire": "^1.7.10",
+    "sinon": "^1.17.6",
+    "sinon-chai": "^2.8.0",
+    "supertest": "^2.0.1"
+  }
+}
