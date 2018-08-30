@@ -1,10 +1,10 @@
 const express = require('express');
-const router = require('./router');
-const errorHandler = require('../routes/handlers/errorHandler');
-const notFoundHandler = require('../routes/handlers/notFoundHandler');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
+const router = require('./router');
+const errorHandler = require('../routes/handlers/errorHandler');
+const notFoundHandler = require('../routes/handlers/notFoundHandler');
 
 const app = express();
 

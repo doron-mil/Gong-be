@@ -13,6 +13,8 @@ router.post('/', (req, res) => {
   responseJson.relayNo = req.body.switch;
   responseJson.isOn = !responseJson.isOn;
 
+  RelaysModule
+
   console.log(`relay no. ${req.body.switch} was toggled to a new value of : "${responseJson.isOn}"`);
 
   res.send(responseJson);
