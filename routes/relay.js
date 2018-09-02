@@ -1,4 +1,5 @@
 const express = require('express');
+const RelaysModule = require('../relay');
 
 const router = express.Router();
 
@@ -11,11 +12,14 @@ const responseJson = {
 
 router.post('/', (req, res) => {
   responseJson.relayNo = req.body.switch;
-  responseJson.isOn = !responseJson.isOn;
 
-  RelaysModule
+  const relaysModule = new RelaysModule();
+  const relayStatusVal = relaysModule.toggleRelay(responseJson.relayNo);
 
-  console.log(`relay no. ${req.body.switch} was toggled to a new value of : "${responseJson.isOn}"`);
+  responseJson.isOn = relayStatusVal;
+
+  // eslint-disable-next-line max-len
+  // console.log(`relay no. ${req.body.switch} was toggled to a new value of : "${responseJson.isOn}"`);
 
   res.send(responseJson);
 });

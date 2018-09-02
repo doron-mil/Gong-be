@@ -1,4 +1,5 @@
 const {exec} = require('child_process');
+const os = require('os');
 
 /*
     JAR
@@ -12,7 +13,10 @@ const {exec} = require('child_process');
 
     // The second part can be rewritten to be passed as a parameter
 */
-const JAVA = '/usr/bin/java -jar ';
+let JAVA = '/usr/bin/java -jar ';
+if (os.platform() === 'win32') {
+  JAVA = '"C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath\\java" -jar ';
+}
 const JAR = './lib/denkovi/DenkoviRelayCommandLineTool_27.jar ';
 const FTDI_ID = 'DAE002Nb ';
 const RELAY = JAVA + JAR + FTDI_ID;
@@ -110,9 +114,11 @@ module.exports = class RelaysModule {
   }
 
   toggleRelay(relayNo) {
-    let currentStatus = this.geteRelayStatus(relayNo);
-    currentStatus = !currentStatus ;
-    const setStatusCommand = `4 ${relayNo} ${currentStatus}`;
+    const currentStatus = this.geteRelayStatus(relayNo);
+    const newCurrentStatus = !currentStatus;
+    const setStatusCommand = `4 ${relayNo} ${newCurrentStatus}`;
     relay(setStatusCommand, success, fail);
+    // console.log('RelaysModule.toggleRelay setStatusCommand = ', setStatusCommand);
+    return newCurrentStatus;
   }
 };
