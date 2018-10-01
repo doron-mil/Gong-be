@@ -5,6 +5,6 @@ const relay = require('../routes/relay');
 const router = express.Router();
 
 router.use('/users', users);
-router.use('/toggleSwitch', relay);
+router.use('/relay', relay);
 
 module.exports = router;

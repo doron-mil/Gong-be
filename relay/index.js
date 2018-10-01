@@ -18,7 +18,7 @@ if (os.platform() === 'win32') {
   JAVA = '"C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath\\java" -jar ';
 }
 const JAR = './lib/denkovi/DenkoviRelayCommandLineTool_27.jar ';
-const FTDI_ID = 'DAE002Nb ';
+const FTDI_ID = 'DAE002N9 ';
 const RELAY = JAVA + JAR + FTDI_ID;
 
 /*
@@ -37,6 +37,14 @@ const LIST = 'list';
 const HELP = 'help';
 const ON1 = '4 1 1';
 
+function success(command, result) {
+  console.log(`success: ${result}\n\n`);
+}
+
+function fail(command, result) {
+  console.log(`ERROR: ${result}\n\n`);
+}
+
 /*
     runCommand:
         Runs a console command in a child process
@@ -51,26 +59,93 @@ const ON1 = '4 1 1';
         stdout => redirected to success function.
         error => redirected to fail function.
 */
-function runCommand(command, success, fail) {
-  // eslint-disable-next-line no-unused-vars
-  const child = exec(command, (error, stdout, stderr) => {
-    if (stderr !== '') console.log(`stderr: ${stderr}`);
+let runningPromise = undefined;
 
-    if (error !== null) {
-      fail(command, error);
-    } else {
-      success(command, stdout);
-      return stdout;
+function runCommandGetPromise(command) {
+  runningPromise = new Promise((resolve, reject) => {
+    exec(command, (error, stdout, stderr) => {
+      if (stderr !== '') console.log(`stderr: ${stderr}`);
+
+      if (error !== null) {
+        fail(command, error);
+        reject(error);
+      } else {
+        success(command, stdout);
+        resolve(stdout);
+      }
+    });
+  })
+  return runningPromise;
+}
+
+class RunCommandInQueue {
+  constructor() {
+    this.isQueueHandled = false;
+    this.promiseQueue = [];
+  }
+
+  startHandlingQueue() {
+    if (this.isQueueHandled) {
+      return;
     }
-  });
+
+    this.isQueueHandled = true;
+
+    this.handleQueue();
+  };
+
+  handleQueue() {
+    if (this.promiseQueue.length <= 0) {
+      this.isQueueHandled = false;
+      return;
+    }
+
+    const {command, resolve, reject} = this.promiseQueue.pop();
+    // console.log('xxxxxxxxxx', command)
+
+    this.runCommand(command, resolve, reject);
+  }
+
+  runCommand(command, resolve, reject) {
+    exec(RELAY + command, (error, stdout, stderr) => {
+      if (stderr !== '') console.log(`stderr: ${stderr}`);
+
+      if (error !== null) {
+        // fail(command, error);
+        reject(error);
+        this.handleQueue();
+      } else {
+        // success(command, stdout);
+        resolve(stdout);
+        this.handleQueue();
+      }
+    });
+  }
+
+  run(command) {
+    runningPromise = new Promise((resolve, reject) => {
+      this.promiseQueue.unshift({command, resolve, reject});
+    });
+    this.startHandlingQueue();
+    return runningPromise;
+  }
+}
+
+function runCommand(command) {
+  if (runningPromise) {
+    runningPromise.then(() => {
+      return runCommandGetPromise(command);
+    });
+  }
+  return runCommandGetPromise(command);
 }
 
 /*
     relay
     A wrapper command used for readability
 */
-function relay(command, success, fail) {
-  return runCommand(RELAY + command, success, fail);
+function relay(command) {
+  return runCommand(RELAY + command);
 }
 
 // Exports: Once every thing works - needs to be turned into a module
@@ -84,41 +159,44 @@ function relay(command, success, fail) {
     Demo function that is triggered in the case of a successful call
     Outputs the result to the console.
 */
-function success(command, result) {
-  console.log(`success: ${result}\n\n`);
-}
 
 /*
     fail:
     Demo function that is triggered in the case of a failed call
     Outputs the result to the console.
 */
-function fail(command, result) {
-  console.log(`ERROR: ${result}\n\n`);
-}
+
 
 /*
     Test calls
 */
-relay(FAIL, success, fail); // Should display an error
-relay(LIST, success, fail); // Should display a list of devices
-relay(HELP, success, fail); // Should display Help
-relay(ON1, success, fail); // Should display Help
+// relay(FAIL, success, fail); // Should display an error
+// relay(LIST, success, fail); // Should display a list of devices
+// relay(HELP, success, fail); // Should display Help
+// relay(ON1, success, fail); // Should display Help
 
+const commandQueue = new RunCommandInQueue();
 
 module.exports = class RelaysModule {
-  geteRelayStatus(relayNo) {
+
+  getRelayStatus(relayNo) {
     const getStatusCommand = `4 ${relayNo} status`;
-    const returnedStatus = relay(getStatusCommand, success, fail);
+    const returnedStatus = commandQueue.run(getStatusCommand);
     return returnedStatus;
   }
 
   toggleRelay(relayNo) {
-    const currentStatus = this.geteRelayStatus(relayNo);
-    const newCurrentStatus = !currentStatus;
-    const setStatusCommand = `4 ${relayNo} ${newCurrentStatus}`;
-    relay(setStatusCommand, success, fail);
-    // console.log('RelaysModule.toggleRelay setStatusCommand = ', setStatusCommand);
-    return newCurrentStatus;
+    const currentStatus = this.getRelayStatus(relayNo);
+    currentStatus.then((retData) => {
+      const newCurrentStatus = !retData || retData.indexOf('0') >= 0 ? 1 : 0;
+      const setStatusCommand = `4 ${relayNo} ${newCurrentStatus}`;
+      return commandQueue.run(setStatusCommand);
+    }).catch((error) => console.error(error));
+  }
+
+  setRelayAll(newRelLyValue) {
+    const newCurrentStatus = newRelLyValue ? 1 : 0;
+    const setRellayCommand = `4 all ${newCurrentStatus}`;
+    return commandQueue.run(setRellayCommand);
   }
 };
