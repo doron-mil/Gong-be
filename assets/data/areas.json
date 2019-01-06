@@ -1,0 +1,22 @@
+[
+  {
+    "id": 0,
+    "name": "all"
+  },
+  {
+    "id": 1,
+    "name": "workers"
+  },
+  {
+    "id": 2,
+    "name": "hall"
+  },
+  {
+    "id": 3,
+    "name": "dining"
+  },
+  {
+    "id": 4,
+    "name": "outside"
+  }
+]
