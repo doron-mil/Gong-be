@@ -12,6 +12,7 @@ const responseJson = {
 const relaysModule = new RelaysModule();
 
 router.post('/toggleSwitch', (req, res) => {
+  console.log('4444', req.body)
   responseJson.relayNo = req.body.switch;
 
   const relayStatusVal = relaysModule.toggleRelay(responseJson.relayNo);

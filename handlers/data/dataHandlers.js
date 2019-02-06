@@ -1,10 +1,8 @@
 const fs = require('fs');
 const responder = require('../../lib/responder');
+const ManualGongsManager = require('../../lib/manualGongsManager/manualGongsManager');
 
-const users = [
-  {id: '1', firstName: 'Edd', secondName: 'Yerburgh'},
-  {id: '2', firstName: 'Colonel', secondName: 'Mustard'},
-];
+const manualGongsManager = new ManualGongsManager();
 
 function getAreas(req, res, next) {
   const rawData = fs.readFileSync('assets/data/areas.json');
@@ -32,9 +30,19 @@ function getCoursesSchedule(req, res, next) {
 
 function getCourseByName(req, res, next) {
   const courseName = req.params.name;
-  const rawData = fs.readFileSync(`wassets/data/course_${courseName}.json`);
+  const rawData = fs.readFileSync(`assets/data/course_${courseName}.json`);
   const foundCourse = JSON.parse(rawData);
   responder.send200Response(res, foundCourse);
+}
+
+function addManualGong(req, res, next) {
+  const retStatus = manualGongsManager.addManualGong(req.body);
+  retStatus.then(
+    () => {
+      responder.send200Response(res, 'SUCCESS');
+    }, (err) => {
+      responder.sendErrorResponse(res, err.httpStatusCode || 500, 'Error in addManualGong ', err);
+    });
 }
 
 module.exports = {
@@ -43,4 +51,5 @@ module.exports = {
   getCourses,
   getCourseByName,
   getCoursesSchedule,
+  addManualGong,
 };
