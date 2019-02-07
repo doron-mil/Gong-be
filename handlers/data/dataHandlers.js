@@ -35,6 +35,11 @@ function getCourseByName(req, res, next) {
   responder.send200Response(res, foundCourse);
 }
 
+const getManualGongsList = (req, res, next) => {
+  const retList = manualGongsManager.getManualGongsList();
+  responder.send200Response(res, retList);
+}
+
 function addManualGong(req, res, next) {
   const retStatus = manualGongsManager.addManualGong(req.body);
   retStatus.then(
@@ -51,5 +56,6 @@ module.exports = {
   getCourses,
   getCourseByName,
   getCoursesSchedule,
+  getManualGongsList,
   addManualGong,
 };

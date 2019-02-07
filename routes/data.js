@@ -13,6 +13,9 @@ router.get('/coursesSchedule', dataHandlers.getCoursesSchedule);
 
 router.get('/course/:id', dataHandlers.getCourseByName);
 
+router.get('/gongs/list', dataHandlers.getManualGongsList);
+
+
 router.post('/gong/add', dataHandlers.addManualGong);
 
 
