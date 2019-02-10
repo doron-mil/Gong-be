@@ -1,7 +1,8 @@
 {
   "extends": ["airbnb-base"],
   "rules": {
-    "no-unused-vars": ["error", { "argsIgnorePattern": "next" }]
+    "no-unused-vars": ["error", { "argsIgnorePattern": "next" }],
+    "max-len": [2, 120, 4]
   },
   "env": {
     "node": true

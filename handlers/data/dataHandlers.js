@@ -1,8 +1,6 @@
 const fs = require('fs');
 const responder = require('../../lib/responder');
-const ManualGongsManager = require('../../lib/manualGongsManager/manualGongsManager');
-
-const manualGongsManager = new ManualGongsManager();
+const manualGongsManager = require('../../lib/gongsManager');
 
 function getAreas(req, res, next) {
   const rawData = fs.readFileSync('assets/data/areas.json');

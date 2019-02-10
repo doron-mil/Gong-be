@@ -1,8 +1,7 @@
 module.exports = class Gong {
-
-  constructor() {
-    this.volume = undefined;
-    this.areas = [];
-    this.gongType = undefined;
+  constructor(aType, aAreas = [0], aVolume = 100) {
+    this.volume = aVolume;
+    this.areas = aAreas;
+    this.gongType = aType;
   }
-}
+};
