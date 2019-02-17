@@ -26,7 +26,7 @@ function authorize(roles = []) {
   return [
     // For Debugging
     (req, res, next) => {
-      console.log('Authorization Entry point. Req( method ,path ) :', req.path ,' , ' ,req.method);
+      console.log('Authorization Entry point. Req( method ,path ) :', req.path, ' , ', req.method);
       next();
     },
     // authenticate JWT token and attach user to request object (req.user)

@@ -4,7 +4,8 @@
   "scripts": {
     "lint": "eslint server lib routes",
     "lint:fix": "npm run lint -- --fix",
-    "start": "nodemon --exec babel-node server"
+    "start": "babel-node server",
+    "start-nodemon": "nodemon --exec babel-node server"
   },
   "dependencies": {
     "bcrypt": "^3.0.4",
