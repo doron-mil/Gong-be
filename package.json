@@ -4,7 +4,7 @@
   "scripts": {
     "lint": "eslint server lib routes",
     "lint:fix": "npm run lint -- --fix",
-    "start": "node server"
+    "start": "nodemon --exec babel-node server"
   },
   "dependencies": {
     "bcrypt": "^3.0.4",
@@ -22,6 +22,14 @@
     "winston": "^3.0.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.3.3",
+    "@babel/node": "^7.0.0",
+    "@babel/plugin-external-helpers": "^7.2.0",
+    "@babel/plugin-proposal-class-properties": "^7.3.3",
+    "@babel/preset-env": "^7.3.1",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^23.4.2",
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "eslint": "^5.4.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",
