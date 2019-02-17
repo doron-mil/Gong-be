@@ -6,9 +6,10 @@ module.exports = class Job {
     FAILED: Symbol('FAILED'),
   });
 
-  constructor(aTime, aData) {
+  constructor(aTime, aData,aManual=false) {
     this.data = aData;
     this.time = aTime;
+    this.isManual = aManual;
     this.status = Job.statusEnum.SCHEDULED;
   }
 };
