@@ -1,6 +1,6 @@
 const fs = require('fs');
 const responder = require('../../lib/responder');
-const manualGongsManager = require('../../lib/gongsManager');
+const gongsManager = require('../../lib/gongsManager');
 
 function getAreas(req, res, next) {
   const rawData = fs.readFileSync('assets/data/areas.json');
@@ -34,17 +34,39 @@ function getCourseByName(req, res, next) {
 }
 
 const getManualGongsList = (req, res, next) => {
-  const retList = manualGongsManager.getManualGongsList();
+  const retList = gongsManager.getManualGongsList();
   responder.send200Response(res, retList);
 }
 
 function addManualGong(req, res, next) {
-  const retStatus = manualGongsManager.addManualGong(req.body);
+  const retStatus = gongsManager.addManualGong(req.body);
   retStatus.then(
     () => {
       responder.send200Response(res, 'SUCCESS');
     }, (err) => {
       responder.sendErrorResponse(res, err.httpStatusCode || 500, 'Error in addManualGong ', err);
+    });
+}
+
+function scheduleCourse(req, res, next) {
+  const retScheduledCoursePromise = gongsManager.addScheduledCourse(req.body);
+
+  retScheduledCoursePromise.then(
+    (retScheduledCourse) => {
+      responder.send200Response(res, retScheduledCourse);
+    }, (err) => {
+      responder.sendErrorResponse(res, err.httpStatusCode || 500, 'Error in scheduleCourse ', err);
+    });
+}
+
+function removeScheduledCourse(req, res, next) {
+  const retStatus = gongsManager.removeScheduledCourse(req.body);
+
+  retStatus.then(
+    () => {
+      responder.send200Response(res, retStatus);
+    }, (err) => {
+      responder.sendErrorResponse(res, err.httpStatusCode || 500, 'Error in remove scheduledCourse ', err);
     });
 }
 
@@ -56,4 +78,6 @@ module.exports = {
   getCoursesSchedule,
   getManualGongsList,
   addManualGong,
+  scheduleCourse,
+  removeScheduledCourse,
 };

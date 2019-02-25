@@ -21,7 +21,8 @@ db.connection.on('error', (err) => {
 
 scheduleManager.start();
 scheduleManager.setExecutor(relayAndSoundManager.playGong);
-gongsManager.addOnAddGongListener(scheduleManager.addJob.bind(scheduleManager));
+gongsManager.init();
+gongsManager.addOnGongActionListener(scheduleManager.jobActionFunction.bind(scheduleManager));
 scheduleManager.addJobsArray(gongsManager.getGongsAsJobsArray());
 
 // const time = new Date().getTime() + 60000;

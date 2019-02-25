@@ -18,5 +18,8 @@ router.get('/gongs/list', dataHandlers.getManualGongsList);
 
 router.post('/gong/add', dataHandlers.addManualGong);
 
+router.post('/coursesSchedule/add', dataHandlers.scheduleCourse);
+
+router.delete('/coursesSchedule/remove', dataHandlers.removeScheduledCourse);
 
 module.exports = router;

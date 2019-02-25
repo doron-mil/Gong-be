@@ -117,6 +117,73 @@
     ]
   },
   {
+    "course_name": "sati_short",
+    "days_count": 10,
+    "course_agenda": [
+      {
+        "days": [
+          0
+        ],
+        "gongs": {
+          "times": [
+            "20:00"
+          ],
+          "areas": [
+            0
+          ],
+          "type": 1
+        }
+      },
+      {
+        "days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "gongs": {
+          "times": [
+            "4:00",
+            "17:50"
+          ],
+          "areas": [
+            2,3
+          ],
+          "type": 3,
+          "volume" : 40
+        }
+      },
+      {
+        "days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "gongs": {
+          "times": [
+            "14:30"
+          ],
+          "areas": [
+            1
+          ],
+          "type": 2,
+          "volume" : 80
+        }
+      }
+    ]
+  },
+  {
     "course_name": "test",
     "days_count": 4,
     "course_agenda": [
