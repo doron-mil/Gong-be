@@ -1,5 +1,6 @@
 const expressJwt = require('express-jwt');
 const authConfig = require('./authConfig');
+const moment = require('moment');
 
 const secretCallback = (req, payload, done) => {
   const { role } = payload;
@@ -26,7 +27,8 @@ function authorize(roles = []) {
   return [
     // For Debugging
     (req, res, next) => {
-      console.log('Authorization Entry point. Req( method ,path ) :', req.path, ' , ', req.method);
+      console.log('Authorization Entry point. Req( method ,path ,time) :', req.path,
+        ' , ', req.method, ' , ', moment().format('HH:mm:ss:ms'));
       next();
     },
     // authenticate JWT token and attach user to request object (req.user)

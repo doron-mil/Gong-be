@@ -18,6 +18,8 @@ router.get('/gongs/list', dataHandlers.getManualGongsList);
 
 router.post('/gong/add', dataHandlers.addManualGong);
 
+router.post('/gong/toggle', dataHandlers.toggleGong);
+
 router.post('/coursesSchedule/add', dataHandlers.scheduleCourse);
 
 router.delete('/coursesSchedule/remove', dataHandlers.removeScheduledCourse);

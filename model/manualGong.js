@@ -7,6 +7,10 @@ module.exports = class ManualGong {
     this.gong = aGong;
   }
 
+  toggleActive() {
+    this.isActive = !this.isActive;
+  }
+
   cloneWhileAddingTime(addedTime) {
     const newManualGong = new ManualGong(this.time + addedTime, this.gong, this.isActive);
     return newManualGong;
