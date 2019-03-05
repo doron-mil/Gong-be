@@ -21,9 +21,9 @@ db.connection.on('error', (err) => {
 
 scheduleManager.start();
 scheduleManager.setExecutor(relayAndSoundManager.playGong);
-gongsManager.init();
+
 gongsManager.addOnGongActionListener(scheduleManager.jobActionFunction.bind(scheduleManager));
-scheduleManager.addJobsArray(gongsManager.getGongsAsJobsArray());
+gongsManager.init();
 
 // const time = new Date().getTime() + 60000;
 // scheduleManager.addJob({
@@ -33,7 +33,7 @@ scheduleManager.addJobsArray(gongsManager.getGongsAsJobsArray());
 
 const aaaa = scheduleManager.getNextScheduledJob();
 console.log('11111', moment(aaaa.time)
-  .format('YY-MM-DD HH:mm:ss'), aaaa.data);
+  .format('YY-MM-DD HH:mm:ss'), aaaa);
 
 // scheduleManager.start();
 

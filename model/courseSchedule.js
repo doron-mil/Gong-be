@@ -16,10 +16,11 @@ module.exports = class CourseSchedule {
     this.exceptions.push(aNewException);
   }
 
-  isExceptionExists(aTimeFromStartStr) {
+  isExceptionExists(/* ExceptionGong */aExceptionGong) {
     let isExist = false;
     if (this.exceptions) {
-      isExist = this.exceptions.some((exceptionItem) => exceptionItem.day_time_str === aTimeFromStartStr);
+      isExist = this.exceptions.some((exceptionItem) => exceptionItem.day_time === aExceptionGong.day_time
+        && exceptionItem.time === aExceptionGong.time);
     }
     return isExist;
   }
@@ -29,8 +30,9 @@ module.exports = class CourseSchedule {
     if (this.exceptions) {
       const foundIndex = this.exceptions.findIndex(
         (exceptionGong) => exceptionGong.day_number === aExceptionToRemove.day_number
-          && exceptionGong.time === aExceptionToRemove.time);
-      if (foundIndex) {
+          && exceptionGong.time === aExceptionToRemove.time
+      );
+      if (foundIndex >= 0) {
         removed = true;
         this.exceptions.splice(foundIndex, 1);
       }
