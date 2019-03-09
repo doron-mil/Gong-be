@@ -20,6 +20,8 @@ router.post('/gong/add', dataHandlers.addManualGong);
 
 router.post('/gong/toggle', dataHandlers.toggleGong);
 
+router.post('/gong/remove', dataHandlers.removeGong);
+
 router.post('/coursesSchedule/add', dataHandlers.scheduleCourse);
 
 router.delete('/coursesSchedule/remove', dataHandlers.removeScheduledCourse);

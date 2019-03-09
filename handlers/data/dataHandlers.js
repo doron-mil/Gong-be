@@ -58,6 +58,16 @@ function toggleGong(req, res, next) {
     });
 }
 
+function removeGong(req, res, next) {
+  const retStatus = gongsManager.removeManualGong(req.body);
+  retStatus.then(
+    () => {
+      responder.send200Response(res, 'SUCCESS');
+    }, (err) => {
+      responder.sendErrorResponse(res, err.httpStatusCode || 500, 'Error in removeGong ', err);
+    });
+}
+
 function scheduleCourse(req, res, next) {
   const retScheduledCoursePromise = gongsManager.addScheduledCourse(req.body);
 
@@ -89,6 +99,7 @@ module.exports = {
   getManualGongsList,
   addManualGong,
   toggleGong,
+  removeGong,
   scheduleCourse,
   removeScheduledCourse,
 };
