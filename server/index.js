@@ -31,9 +31,10 @@ gongsManager.init();
 //   data: { stam: 1 },
 // });
 
-const aaaa = scheduleManager.getNextScheduledJob();
-console.log('11111', moment(aaaa.time)
-  .format('YY-MM-DD HH:mm:ss'), aaaa);
+// const aaaa = scheduleManager.getNextScheduledJob();
+// if (aaaa) {
+//   console.log('11111', moment(aaaa.time).format('YY-MM-DD HH:mm:ss'), aaaa);
+// }
 
 // scheduleManager.start();
 
