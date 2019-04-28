@@ -264,6 +264,7 @@
   {
     "course_name": "test2",
     "days_count": 1,
+    "test":true,
     "course_agenda": [
       {
         "days": [

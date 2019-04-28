@@ -6,7 +6,7 @@ module.exports = class CourseSchedule {
     this.course_name = undefined;
     this.date = undefined;
     this.startFromDay = undefined;
-    this.exceptions = undefined;
+    this.testHoursRange = undefined;
   }
 
   insertException(aNewException) {
@@ -55,6 +55,9 @@ module.exports = class CourseSchedule {
       aJsonCourseScheduleRecord.exceptions.forEach((exceptionJson) => {
         newCourseSchedule.exceptions.push(ExceptionGong.fromJson(exceptionJson));
       });
+    }
+    if (aJsonCourseScheduleRecord.testHoursRange) {
+      newCourseSchedule.testHoursRange = aJsonCourseScheduleRecord.testHoursRange;
     }
     return newCourseSchedule;
   }
