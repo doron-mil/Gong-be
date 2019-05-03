@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test gongsManager with empty files Removing Manual Gong  Empty object 1`] = `10`;
+
+exports[`Test gongsManager with empty files Removing Manual Gong  Empty object 2`] = `10`;
+
+exports[`Test gongsManager with empty files Removing Manual Gong  Invalid time 1`] = `10`;
+
+exports[`Test gongsManager with empty files Removing Manual Gong  Invalid time 2`] = `10`;
+
+exports[`Test gongsManager with empty files Removing Manual Gong  No time 1`] = `10`;
+
+exports[`Test gongsManager with empty files Removing Manual Gong  No time 2`] = `10`;
+
+exports[`Test gongsManager with empty files Removing Manual Gong  Non existing manual gong 1`] = `10`;
+
+exports[`Test gongsManager with empty files Removing Manual Gong  Non existing manual gong 2`] = `10`;
+
+exports[`Test gongsManager with empty files Removing Manual Gong  Null object 1`] = `10`;
+
+exports[`Test gongsManager with empty files Removing Manual Gong  Null object 2`] = `10`;
