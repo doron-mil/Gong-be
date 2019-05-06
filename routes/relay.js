@@ -1,5 +1,6 @@
 const express = require('express');
-const RelaysModule = require('../relay');
+const relaysModule = require('../relay');
+const relayAndSoundManager = require('../lib/relayAndSoundManager');
 
 const router = express.Router();
 
@@ -9,7 +10,10 @@ const responseJson = {
   isOn: true,
 };
 
-const relaysModule = new RelaysModule();
+router.post('/playGong', (req, res) => {
+  const relayStatusVal = relayAndSoundManager.playImmediateGong(req.body);
+  res.send(relayStatusVal);
+});
 
 router.post('/toggleSwitch', (req, res) => {
   responseJson.relayNo = req.body.switch;

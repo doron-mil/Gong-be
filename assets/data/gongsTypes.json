@@ -1,13 +1,13 @@
 [
   {
     "id": 0,
-    "name": "long",
-    "pathName" :"longGong.mp3"
+    "name": "short",
+    "pathName" :"shortGong.mp3"
   },
   {
     "id": 1,
-    "name": "short",
-    "pathName" :"shortGong.mp3"
+    "name": "long",
+    "pathName" :"churchbell.wav"
   },
   {
     "id": 2,

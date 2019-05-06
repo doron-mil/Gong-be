@@ -20,7 +20,7 @@ db.connection.on('error', (err) => {
 });
 
 scheduleManager.start();
-scheduleManager.setExecutor(relayAndSoundManager.playGong);
+scheduleManager.setExecutor(relayAndSoundManager.playGongForJob);
 
 gongsManager.addOnGongActionListener(scheduleManager.jobActionFunction.bind(scheduleManager));
 gongsManager.init();
