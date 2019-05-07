@@ -151,6 +151,27 @@
     ]
   },
   {
+    "course_name": "test4",
+    "days_count": 1,
+    "test": true,
+    "course_agenda": [
+      {
+        "days": [
+          0
+        ],
+        "gongs": {
+          "times": [
+            ":00", ":01"
+          ],
+          "areas": [
+            2, 3
+          ],
+          "type": 3
+        }
+      }
+    ]
+  },
+  {
     "course_name": "test3",
     "days_count": 1,
     "test": true,

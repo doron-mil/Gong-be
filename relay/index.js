@@ -2,6 +2,7 @@ const { exec } = require('child_process');
 const os = require('os');
 const logger = require('../lib/logger');
 const ExecError = require('../model/execError');
+const RunPromiseRoutineInQueue = require('../lib/utils/runPromiseRoutineInQueue');
 
 /**
  JAR
@@ -29,61 +30,6 @@ const RELAY_NO_DEVICE = JAVA + JAR;
 const RELAY = RELAY_NO_DEVICE + FTDI_ID;
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 
-
-class RunCommandInQueue {
-  constructor() {
-    this.isQueueHandled = false;
-    this.promiseQueue = [];
-  }
-
-  startHandlingQueue() {
-    if (this.isQueueHandled) {
-      return;
-    }
-
-    this.isQueueHandled = true;
-
-    this.handleQueue();
-  }
-
-  handleQueue() {
-    if (this.promiseQueue.length <= 0) {
-      this.isQueueHandled = false;
-      return;
-    }
-
-    const { command, resolve, reject } = this.promiseQueue.pop();
-
-    this.runCommand(command, resolve, reject);
-  }
-
-  runCommand(aCommand, aResolve, aReject) {
-    exec(aCommand, (error, stdout, stderr) => {
-      if (error !== null) {
-        aReject(new ExecError(error, stderr));
-        this.handleQueue();
-      } else {
-        aResolve(stdout);
-        this.handleQueue();
-      }
-    });
-  }
-
-  run(aCommand, aWithDevice = true) {
-    const runningPromise = new Promise((resolve, reject) => {
-      this.promiseQueue.unshift({
-        command: `${aWithDevice ? RELAY : RELAY_NO_DEVICE}${aCommand}`,
-        resolve,
-        reject,
-      });
-    });
-    this.startHandlingQueue();
-    return runningPromise;
-  }
-}
-
-const commandQueue = new RunCommandInQueue();
-
 /**
  * @param {number[]} aRelayPortsArray
  * @return {string}
@@ -98,18 +44,29 @@ const convertPortsArrayToBinNumber = (aRelayPortsArray) => {
   return binArray.join('');
 };
 
-let deviceLastConnectionStatus = true;
+let gDeviceLastConnectionStatus = true;
 
 const computeDeviceConnected = (aDeviceListString) => {
-  deviceLastConnectionStatus = aDeviceListString.includes(FTDI_ID_NO_SPACE);
+  gDeviceLastConnectionStatus = aDeviceListString.includes(FTDI_ID_NO_SPACE);
 };
 
-const checkDeviceConnected = () => {
+// eslint-disable-next-line arrow-body-style
+const computeCommandToRun = (aCommandToRun, aWithDevice = true) => {
+  return `${aWithDevice ? RELAY : RELAY_NO_DEVICE}${aCommandToRun}`;
+};
+
+/**
+ *
+ * @param {RelaysModule} aRelaysModuleObject
+ * @return {Promise<any>}
+ */
+const checkDeviceConnected = (aRelaysModuleObject) => {
   const promiseResult = new Promise((resolve) => {
-    const commandPromiseResult = commandQueue.run('list', false);
+    const computedCommand = computeCommandToRun('list', false);
+    const commandPromiseResult = aRelaysModuleObject.runPromisesInQueue.run(computedCommand);
     commandPromiseResult.then(/** @param {string} listCommandResult */(listCommandResult) => {
       computeDeviceConnected(listCommandResult);
-      resolve(deviceLastConnectionStatus);
+      resolve(gDeviceLastConnectionStatus);
     }).catch((error) => {
       logger.relayAndSoundManager.error('RelaysModule::checkDeviceConnected ERROR', error);
       resolve(false);
@@ -118,30 +75,34 @@ const checkDeviceConnected = () => {
 
   return promiseResult;
 };
+
+
 /**
  *
+ * @param {RelaysModule} aRelaysModuleObject
  * @param aCommandToRun
  * @param aWithDevice
  * @param aIsFirstCall
- * @return {Promise}
+ * @return {Promise<any>}
  */
-const runCommandInQueue = (aCommandToRun, aWithDevice = true, aIsFirstCall = true) => {
+const runCommandInQueue = (aRelaysModuleObject, aCommandToRun, aWithDevice = true, aIsFirstCall = true) => {
   const errorPrefix = 'RelaysModule::checkDeviceConnected ';
   let deviceIsReadyPromise = Promise.resolve(true);
-  if (!deviceLastConnectionStatus) {
-    deviceIsReadyPromise = checkDeviceConnected();
+  if (!gDeviceLastConnectionStatus) {
+    deviceIsReadyPromise = checkDeviceConnected(aRelaysModuleObject);
   }
   const promiseResult = new Promise((resolve, reject) => {
     deviceIsReadyPromise.then((isDeviceREady) => {
       if (isDeviceREady && aIsFirstCall) {
-        commandQueue.run(aCommandToRun, aWithDevice)
+        const computedCommand = computeCommandToRun(aCommandToRun, aWithDevice);
+        aRelaysModuleObject.runPromisesInQueue.run(computedCommand)
           .then((resolveResult) => {
             resolve(resolveResult);
           })
           .catch((error) => {
             logger.relayAndSoundManager.error(`${errorPrefix} ERROR`, error);
-            deviceLastConnectionStatus = false;
-            runCommandInQueue(aCommandToRun, aWithDevice, false)
+            gDeviceLastConnectionStatus = false;
+            runCommandInQueue(aRelaysModuleObject, aCommandToRun, aWithDevice, false)
               .then((resolveResult) => resolve(resolveResult))
               .catch((errorResult) => reject(errorResult));
           });
@@ -156,11 +117,23 @@ const runCommandInQueue = (aCommandToRun, aWithDevice = true, aIsFirstCall = tru
   return promiseResult;
 };
 
+const functionToRunCommands = (aPayload) => {
+  return new Promise((resolve, reject) => {
+    exec(aPayload, (error, stdout, stderr) => {
+      if (error !== null) {
+        reject(new ExecError(error, stderr));
+      } else {
+        resolve(stdout);
+      }
+    });
+  });
+};
 
 class RelaysModule {
 
   constructor() {
-    const promiseRes = runCommandInQueue('list', false);
+    this.runPromisesInQueue = new RunPromiseRoutineInQueue(functionToRunCommands);
+    const promiseRes = runCommandInQueue(this, 'list', false);
     promiseRes.then((result) => {
       computeDeviceConnected(result);
       const divider = '--------------------------------------------------------------------';
@@ -172,7 +145,7 @@ class RelaysModule {
 
   getRelayStatus(aRelayPortNo) {
     const getStatusCommand = `${NO_OF_PORTS} ${aRelayPortNo} status`;
-    const returnedStatus = runCommandInQueue(getStatusCommand);
+    const returnedStatus = runCommandInQueue(this, getStatusCommand);
     return returnedStatus;
   }
 
@@ -181,14 +154,14 @@ class RelaysModule {
     currentStatus.then((retData) => {
       const newCurrentStatus = !retData || retData.indexOf('0') >= 0 ? 1 : 0;
       const setStatusCommand = `${NO_OF_PORTS} ${aRelayPortNo} ${newCurrentStatus}`;
-      return runCommandInQueue(setStatusCommand);
+      return runCommandInQueue(this, setStatusCommand);
     }).catch((error) => console.error(error));
   }
 
   setRelayPort(aRelayPortNo, aIsOn) {
     const newCurrentStatus = aIsOn ? 1 : 0;
     const setStatusCommand = `${NO_OF_PORTS} ${aRelayPortNo} ${newCurrentStatus}`;
-    return runCommandInQueue(setStatusCommand);
+    return runCommandInQueue(this, setStatusCommand);
   }
 
   /**
@@ -202,7 +175,7 @@ class RelaysModule {
     }
     const relayPortsToTurnBinNumber = convertPortsArrayToBinNumber(aRelayPortsNumbersArray);
     const setStatusCommand = `${NO_OF_PORTS} turn ${relayPortsToTurnBinNumber}`;
-    return runCommandInQueue(setStatusCommand);
+    return runCommandInQueue(this, setStatusCommand);
   }
 
   /**
@@ -212,7 +185,7 @@ class RelaysModule {
   setRelayPorstAll(aIsOn = true) {
     const newCurrentStatus = aIsOn ? 1 : 0;
     const setRellayCommand = `${NO_OF_PORTS} all ${newCurrentStatus}`;
-    const run = runCommandInQueue(setRellayCommand);
+    const run = runCommandInQueue(this, setRellayCommand);
     return run;
   }
 }
