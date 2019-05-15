@@ -10,7 +10,7 @@ const jobActionStubFunction = jest.fn((/* Job */aJobOrJobs, aAction) => {
 });
 
 
-describe('Test gongsManager with empty files', () => {
+describe('Test gongsManager - Handling Manual Gongs', () => {
   beforeAll(() => {
     const filesPath = 'jest/data/1';
     fs.writeFileSync(`${filesPath}/obsoleteManualGong.json`, '[]');

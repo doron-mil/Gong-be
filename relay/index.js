@@ -130,7 +130,6 @@ const functionToRunCommands = (aPayload) => {
 };
 
 class RelaysModule {
-
   constructor() {
     this.runPromisesInQueue = new RunPromiseRoutineInQueue(functionToRunCommands);
     const promiseRes = runCommandInQueue(this, 'list', false);

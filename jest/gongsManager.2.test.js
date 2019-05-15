@@ -1,5 +1,6 @@
 const fs = require('fs');
 const moment = require('moment');
+const utilsManager = require('../lib/utilsManager');
 const gongsManager = require('../lib/gongsManager');
 const logger = require('../lib/logger');
 
@@ -7,12 +8,13 @@ logger.setTestMode();
 
 const dateFormat = 'YYYY-MM-DD';
 const validCourseName = '10_day_course';
+const validOneDatTestCourseName = 'test2';
 
 const jobActionStubFunction = jest.fn((/* Job */aJobOrJobs, aAction) => {
   // console.log('aaaa', aJobOrJobs.length, aAction);
 });
 
-describe('Test gongsManager courses hanling', () => {
+describe('Test gongsManager courses handling', () => {
   let courseDaysCount;
 
   beforeAll(() => {
@@ -22,6 +24,8 @@ describe('Test gongsManager courses hanling', () => {
     gongsManager.addOnGongActionListener(jobActionStubFunction);
     gongsManager.init();
     jobActionStubFunction.mockClear();
+    const course = utilsManager.coursesMap.get(validCourseName);
+    courseDaysCount = course.daysCount;
   });
 
   const addCourseFailedFn = async (aCourseJson) => {
@@ -73,10 +77,6 @@ describe('Test gongsManager courses hanling', () => {
   };
 
   describe('Failed courses addition ', () => {
-    beforeAll(() => {
-      const course = gongsManager.coursesMap.get(validCourseName);
-      courseDaysCount = course.daysCount;
-    });
 
     addCourseFailedTestFn(null, 'Null object');
 
@@ -105,25 +105,152 @@ describe('Test gongsManager courses hanling', () => {
       date: validTimeForCourse.clone().subtract(1, 'y').format(dateFormat),
     };
     addCourseFailedTestFn(scheduledCourseJson, 'Past time');
-
   });
 
-  test('Valid courses addition', async () => {
-    const currentMoment = moment();
-    const dateStr = currentMoment.format(dateFormat);
-    const scheduledCourseJson = {
-      course_name: validCourseName,
-      date: dateStr,
+  describe('Failed tests courses addition ', () => {
+    let scheduledCourseJson = {
+      course_name: validOneDatTestCourseName,
+      date: moment().format(dateFormat),
     };
+    addCourseFailedTestFn(scheduledCourseJson, 'Test course without Test Hours Range');
 
-    const addScheduledCourseSuccess = await gongsManager.addScheduledCourse(scheduledCourseJson);
-    expect(addScheduledCourseSuccess).toMatchSnapshot({
-      id: expect.any(Number),
-      date: expect.any(String),
+    scheduledCourseJson = {
+      course_name: validOneDatTestCourseName,
+      date: moment().format(dateFormat),
+      testHoursRange: 33,
+    };
+    addCourseFailedTestFn(scheduledCourseJson, 'Test course with invalid Test Hours Range');
+
+    scheduledCourseJson = {
+      course_name: validOneDatTestCourseName,
+      date: moment().format(dateFormat),
+      testHoursRange: {
+        start: 0,
+      },
+    };
+    addCourseFailedTestFn(scheduledCourseJson, 'Test course with missing start of Test Hours Range');
+
+    scheduledCourseJson = {
+      course_name: validOneDatTestCourseName,
+      date: moment().format(dateFormat),
+      testHoursRange: {
+        end: 0,
+      },
+    };
+    addCourseFailedTestFn(scheduledCourseJson, 'Test course with missing end of Test Hours Range');
+
+    scheduledCourseJson = {
+      course_name: validOneDatTestCourseName,
+      date: moment().format(dateFormat),
+      testHoursRange: {
+        start: 'aaa',
+        end: 'bbb',
+      },
+    };
+    addCourseFailedTestFn(scheduledCourseJson, 'Test course with invalid start & end of Test Hours Range');
+
+    scheduledCourseJson = {
+      course_name: validOneDatTestCourseName,
+      date: moment().format(dateFormat),
+      testHoursRange: {
+        start: 'aaa',
+        end: 0,
+      },
+    };
+    addCourseFailedTestFn(scheduledCourseJson, 'Test course with invalid start of Test Hours Range');
+
+    scheduledCourseJson = {
+      course_name: validOneDatTestCourseName,
+      date: moment().format(dateFormat),
+      testHoursRange: {
+        start: 0,
+        end: 'aaa',
+      },
+    };
+    addCourseFailedTestFn(scheduledCourseJson, 'Test course with invalid end of Test Hours Range');
+
+    scheduledCourseJson = {
+      course_name: validOneDatTestCourseName,
+      date: moment().format(dateFormat),
+      testHoursRange: {
+        start: 4,
+        end: 3,
+      },
+    };
+    addCourseFailedTestFn(scheduledCourseJson, 'Test course with start greater than end of Test Hours Range');
+
+    // Hopefully is run after 2am *********
+    const currentHour = moment().hour();
+    scheduledCourseJson = {
+      course_name: validOneDatTestCourseName,
+      date: moment().format(dateFormat),
+      testHoursRange: {
+        start: currentHour - 2,
+        end: currentHour - 1,
+      },
+    };
+    addCourseFailedTestFn(scheduledCourseJson, 'Test course with start & end of Test Hours Range before current time');
+  });
+
+  describe('Adding courses - success ', () => {
+    let aCourse4RemoalJson;
+    beforeEach(async () => {
+      jobActionStubFunction.mockClear();
+      if (aCourse4RemoalJson) {
+        await removeCourseFn(aCourse4RemoalJson);
+      }
     });
-    expect(jobActionStubFunction.mock.calls.length).toMatchSnapshot();
-    expect(gongsManager.scheduledCoursesArray.length).toEqual(1);
-    expect(gongsManager.automaticGongsMap.size).toEqual(1);
+
+    // Hopefully is run after 1am *********
+    test('Partially matched test course', async () => {
+      const currentMoment = moment();
+      const dateStr = currentMoment.format(dateFormat);
+      const startHour = Math.max(currentMoment.hour() - 1, 0);
+      const endHour = currentMoment.hour() + 1;
+      const scheduledCourseJson = {
+        course_name: validOneDatTestCourseName,
+        date: dateStr,
+        testHoursRange: {
+          start: startHour,
+          end: endHour,
+        },
+      };
+
+      const addScheduledCourseSuccess = await gongsManager.addScheduledCourse(scheduledCourseJson);
+      aCourse4RemoalJson = addScheduledCourseSuccess;
+      expect(addScheduledCourseSuccess).toMatchObject({
+        course_name: validOneDatTestCourseName,
+        id: currentMoment.startOf('day').valueOf(),
+        date: dateStr,
+        testHoursRange: {
+          start: startHour,
+          end: endHour,
+        },
+      });
+      expect(jobActionStubFunction.mock.calls.length).toBeGreaterThan(60);
+      expect(gongsManager.scheduledCoursesArray.length).toEqual(1);
+      expect(gongsManager.automaticGongsMap.size).toEqual(1);
+    });
+
+    test('Valid courses addition', async () => {
+      const currentMoment = moment();
+      const dateStr = currentMoment.format(dateFormat);
+      const scheduledCourseJson = {
+        course_name: validCourseName,
+        date: dateStr,
+      };
+
+      const addScheduledCourseSuccess = await gongsManager.addScheduledCourse(scheduledCourseJson);
+      expect(addScheduledCourseSuccess).toMatchObject({
+        course_name: validCourseName,
+        id: currentMoment.startOf('day').valueOf(),
+        date: dateStr,
+      });
+      // expect(jobActionStubFunction.mock.calls.length).toMatchSnapshot();
+      expect(gongsManager.scheduledCoursesArray.length).toEqual(1);
+      expect(gongsManager.automaticGongsMap.size).toEqual(1);
+    });
+
   });
 
   describe('Check for collision ', () => {
@@ -184,11 +311,7 @@ describe('Test gongsManager courses hanling', () => {
   });
 
   describe('Removing courses ', () => {
-    let validTimeForCourse;
     let scheduledCourse4RemovalJson;
-    beforeAll(() => {
-      validTimeForCourse = moment();
-    });
     beforeEach(() => jobActionStubFunction.mockClear());
 
     describe('Failed removing courses ', () => {
@@ -210,7 +333,7 @@ describe('Test gongsManager courses hanling', () => {
       scheduledCourse4RemovalJson = {
         id: moment().startOf('day').valueOf(),
       };
-      const removeResult = await removeCourseFn(scheduledCourse4RemovalJson)
+      const removeResult = await removeCourseFn(scheduledCourse4RemovalJson);
       expect(removeResult).toEqual('SUCCESS');
       expect(gongsManager.scheduledCoursesArray.length).toEqual(noOfCoursesBeforeRemove - 1);
       expect(gongsManager.automaticGongsMap.size).toEqual(noOfCoursesBeforeRemove - 1);

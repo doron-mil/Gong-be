@@ -1,71 +1,75 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test gongsManager courses hanling Check for collision  Adding days - check for success  1`] = `94`;
+exports[`Test gongsManager courses handling Check for collision  Adding days - check for success  1`] = `94`;
 
-exports[`Test gongsManager courses hanling Check for collision  Adding days - check for success  2`] = `2`;
+exports[`Test gongsManager courses handling Check for collision  Adding days - check for success  2`] = `2`;
 
-exports[`Test gongsManager courses hanling Check for collision  Adding days - check for success  3`] = `2`;
+exports[`Test gongsManager courses handling Check for collision  Adding days - check for success  3`] = `2`;
 
-exports[`Test gongsManager courses hanling Check for collision  Adding days - check for success  4`] = `2`;
+exports[`Test gongsManager courses handling Check for collision  Adding/Subtracting days - check for fail  1`] = `1`;
 
-exports[`Test gongsManager courses hanling Check for collision  Adding days - check for success  5`] = `2`;
+exports[`Test gongsManager courses handling Check for collision  Adding/Subtracting days - check for fail  2`] = `1`;
 
-exports[`Test gongsManager courses hanling Check for collision  Adding/Subtracting days - check for fail  1`] = `1`;
+exports[`Test gongsManager courses handling Check for collision  Subtracting days - check for failure - before current time  1`] = `1`;
 
-exports[`Test gongsManager courses hanling Check for collision  Adding/Subtracting days - check for fail  2`] = `1`;
+exports[`Test gongsManager courses handling Check for collision  Subtracting days - check for failure - before current time  2`] = `1`;
 
-exports[`Test gongsManager courses hanling Check for collision  Subtracting days - check for failure - before current time  1`] = `1`;
+exports[`Test gongsManager courses handling Failed courses addition  Empty object 1`] = `0`;
 
-exports[`Test gongsManager courses hanling Check for collision  Subtracting days - check for failure - before current time  2`] = `1`;
+exports[`Test gongsManager courses handling Failed courses addition  Empty object 2`] = `0`;
 
-exports[`Test gongsManager courses hanling Failed courses addition  Empty object 1`] = `0`;
+exports[`Test gongsManager courses handling Failed courses addition  Invalid time 1`] = `0`;
 
-exports[`Test gongsManager courses hanling Failed courses addition  Empty object 2`] = `0`;
+exports[`Test gongsManager courses handling Failed courses addition  Invalid time 2`] = `0`;
 
-exports[`Test gongsManager courses hanling Failed courses addition  Invalid time 1`] = `0`;
+exports[`Test gongsManager courses handling Failed courses addition  No Course name 1`] = `0`;
 
-exports[`Test gongsManager courses hanling Failed courses addition  Invalid time 2`] = `0`;
+exports[`Test gongsManager courses handling Failed courses addition  No Course name 2`] = `0`;
 
-exports[`Test gongsManager courses hanling Failed courses addition  No Course name 1`] = `0`;
+exports[`Test gongsManager courses handling Failed courses addition  No time 1`] = `0`;
 
-exports[`Test gongsManager courses hanling Failed courses addition  No Course name 2`] = `0`;
+exports[`Test gongsManager courses handling Failed courses addition  No time 2`] = `0`;
 
-exports[`Test gongsManager courses hanling Failed courses addition  No time 1`] = `0`;
+exports[`Test gongsManager courses handling Failed courses addition  Null object 1`] = `0`;
 
-exports[`Test gongsManager courses hanling Failed courses addition  No time 2`] = `0`;
+exports[`Test gongsManager courses handling Failed courses addition  Null object 2`] = `0`;
 
-exports[`Test gongsManager courses hanling Failed courses addition  Null object 1`] = `0`;
+exports[`Test gongsManager courses handling Failed courses addition  Past time 1`] = `0`;
 
-exports[`Test gongsManager courses hanling Failed courses addition  Null object 2`] = `0`;
+exports[`Test gongsManager courses handling Failed courses addition  Past time 2`] = `0`;
 
-exports[`Test gongsManager courses hanling Failed courses addition  Past time 1`] = `0`;
+exports[`Test gongsManager courses handling Failed tests courses addition  Test course with invalid Test Hours Range 1`] = `0`;
 
-exports[`Test gongsManager courses hanling Failed courses addition  Past time 2`] = `0`;
+exports[`Test gongsManager courses handling Failed tests courses addition  Test course with invalid Test Hours Range 2`] = `0`;
 
-exports[`Test gongsManager courses hanling Removing courses  Removing courses  Empty object 1`] = `1`;
+exports[`Test gongsManager courses handling Failed tests courses addition  Test course with invalid end of Test Hours Range 1`] = `0`;
 
-exports[`Test gongsManager courses hanling Removing courses  Removing courses  Empty object 2`] = `2`;
+exports[`Test gongsManager courses handling Failed tests courses addition  Test course with invalid end of Test Hours Range 2`] = `0`;
 
-exports[`Test gongsManager courses hanling Removing courses  Removing courses  Id that do not exists 1`] = `0`;
+exports[`Test gongsManager courses handling Failed tests courses addition  Test course with invalid start & end of Test Hours Range 1`] = `0`;
 
-exports[`Test gongsManager courses hanling Removing courses  Removing courses  Id that do not exists 2`] = `2`;
+exports[`Test gongsManager courses handling Failed tests courses addition  Test course with invalid start & end of Test Hours Range 2`] = `0`;
 
-exports[`Test gongsManager courses hanling Removing courses  Removing courses  Invalid id 1`] = `0`;
+exports[`Test gongsManager courses handling Failed tests courses addition  Test course with invalid start of Test Hours Range 1`] = `0`;
 
-exports[`Test gongsManager courses hanling Removing courses  Removing courses  Invalid id 2`] = `2`;
+exports[`Test gongsManager courses handling Failed tests courses addition  Test course with invalid start of Test Hours Range 2`] = `0`;
 
-exports[`Test gongsManager courses hanling Removing courses  Removing courses  Null object 1`] = `2`;
+exports[`Test gongsManager courses handling Failed tests courses addition  Test course with missing end of Test Hours Range 1`] = `0`;
 
-exports[`Test gongsManager courses hanling Removing courses  Removing courses  Null object 2`] = `2`;
+exports[`Test gongsManager courses handling Failed tests courses addition  Test course with missing end of Test Hours Range 2`] = `0`;
 
-exports[`Test gongsManager courses hanling Valid courses addition 1`] = `
-Object {
-  "course_name": "10_day_course",
-  "date": Any<String>,
-  "id": Any<Number>,
-  "startFromDay": undefined,
-  "testHoursRange": undefined,
-}
-`;
+exports[`Test gongsManager courses handling Failed tests courses addition  Test course with missing start of Test Hours Range 1`] = `0`;
 
-exports[`Test gongsManager courses hanling Valid courses addition 2`] = `94`;
+exports[`Test gongsManager courses handling Failed tests courses addition  Test course with missing start of Test Hours Range 2`] = `0`;
+
+exports[`Test gongsManager courses handling Failed tests courses addition  Test course with start & end of Test Hours Range before current time 1`] = `0`;
+
+exports[`Test gongsManager courses handling Failed tests courses addition  Test course with start & end of Test Hours Range before current time 2`] = `0`;
+
+exports[`Test gongsManager courses handling Failed tests courses addition  Test course with start greater than end of Test Hours Range 1`] = `0`;
+
+exports[`Test gongsManager courses handling Failed tests courses addition  Test course with start greater than end of Test Hours Range 2`] = `0`;
+
+exports[`Test gongsManager courses handling Failed tests courses addition  Test course without Test Hours Range 1`] = `0`;
+
+exports[`Test gongsManager courses handling Failed tests courses addition  Test course without Test Hours Range 2`] = `0`;
