@@ -194,11 +194,8 @@ describe('Test gongsManager courses handling', () => {
 
   describe('Adding courses - success ', () => {
     let aCourse4RemoalJson;
-    beforeEach(async () => {
+    beforeAll(() => {
       jobActionStubFunction.mockClear();
-      if (aCourse4RemoalJson) {
-        await removeCourseFn(aCourse4RemoalJson);
-      }
     });
 
     // Hopefully is run after 1am *********
@@ -227,9 +224,37 @@ describe('Test gongsManager courses handling', () => {
           end: endHour,
         },
       });
-      expect(jobActionStubFunction.mock.calls.length).toBeGreaterThan(60);
+      expect(jobActionStubFunction.mock.calls.length).toEqual(1);
+      expect(jobActionStubFunction.mock.calls[0][0].length).toBeGreaterThan(60);
+      expect(jobActionStubFunction.mock.calls[0][1]).toBe('ADD');
       expect(gongsManager.scheduledCoursesArray.length).toEqual(1);
       expect(gongsManager.automaticGongsMap.size).toEqual(1);
+    });
+
+    test('Removing the course ', async () => {
+      const JobActionsFunctionsPrevCallsArray = jobActionStubFunction.mock.calls;
+      /** @var {Array} timedGongRecord */
+      const prevJobsCallsArray = JobActionsFunctionsPrevCallsArray[0][0];
+
+      jobActionStubFunction.mockClear();
+
+      await removeCourseFn(aCourse4RemoalJson);
+
+      // console.log( '1111', jobActionStubFunction.mock.calls[0][0])
+      expect(jobActionStubFunction.mock.calls.length).toEqual(1);
+      expect(jobActionStubFunction.mock.calls[0][0].length).toEqual(prevJobsCallsArray.length);
+      expect(jobActionStubFunction.mock.calls[0][1]).toBe('DELETE');
+      expect(gongsManager.scheduledCoursesArray.length).toEqual(0);
+      expect(gongsManager.automaticGongsMap.size).toEqual(0);
+
+      jobActionStubFunction.mock.calls[0][0].forEach(/** @param {module.Job} job */(job) => {
+        const foundIndex = prevJobsCallsArray.findIndex(
+          /** @param {module.Job} prevJob */(prevJob) => prevJob.time === job.time);
+        expect(foundIndex).toBeGreaterThanOrEqual(0);
+        prevJobsCallsArray.splice(foundIndex, 1);
+      });
+
+      expect(prevJobsCallsArray.length).toEqual(0);
     });
 
     test('Valid courses addition', async () => {

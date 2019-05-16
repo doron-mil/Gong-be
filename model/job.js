@@ -6,11 +6,15 @@ module.exports = class Job {
     FAILED: Symbol('FAILED'),
   });
 
-  constructor(aTime, aData,aManual=false,aCallBackFunc) {
+  constructor(aTime, aData, aManual = false, aCallBackFunc) {
     this.data = aData;
     this.time = aTime;
     this.isManual = aManual;
     this.status = Job.statusEnum.SCHEDULED;
     this.callBackFunc = aCallBackFunc;
+  }
+
+  setTime(aNewTime) {
+    this.time = aNewTime;
   }
 };
