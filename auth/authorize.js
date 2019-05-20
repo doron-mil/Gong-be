@@ -33,7 +33,7 @@ function authorize(roles = []) {
     },
     // authenticate JWT token and attach user to request object (req.user)
     expressJwt({ secret: secretCallback })
-      .unless({ path: ['/login', '/nextgong'] }),
+      .unless({ path: ['/login', '/nextgong', '/api/login', '/api/nextgong'] }),
 
     // authorize based on user role
     (req, res, next) => {
