@@ -1,6 +1,9 @@
 {
   "name": "gong-be",
   "version": "1.0.0",
+  "engines": {
+    "node": "11.10"
+  },
   "scripts": {
     "lint": "eslint server lib routes",
     "lint:fix": "npm run lint -- --fix",

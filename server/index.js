@@ -1,5 +1,5 @@
 const config = require('config');
-const moment = require('moment');
+// const moment = require('moment');
 const app = require('./app');
 const db = require('../lib/db');
 const logger = require('../lib/logger');
@@ -8,7 +8,7 @@ const scheduleManager = require('../lib/scheduleManager');
 const gongsManager = require('../lib/gongsManager');
 const relayAndSoundManager = require('../lib/relayAndSoundManager');
 
-const PORT = config.get('server.port');
+const PORT = process.env.PORT || config.get('server.port');
 
 app.listen(PORT, () => {
   logger.log('info', `Server listening on port ${PORT}!`);
