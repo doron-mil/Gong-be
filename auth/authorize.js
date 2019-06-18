@@ -1,5 +1,6 @@
 const expressJwt = require('express-jwt');
 const authConfig = require('./authConfig');
+const responder = require('../lib/responder');
 const moment = require('moment');
 
 const secretCallback = (req, payload, done) => {
@@ -36,7 +37,11 @@ function authorize(roles = []) {
       .unless({ path: ['/login', '/nextgong', '/api/login', '/api/nextgong'] }),
 
     // authorize based on user role
-    (req, res, next) => {
+    (err, req, res, next) => {
+      if (err) {
+        responder.sendErrorResponse(res, err.httpStatusCode || 500, 'invalid token ', err, req);
+        return err;
+      }
       if (rolesArray.length && !rolesArray.includes(req.user.role)) {
         // user's role is not authorized
         return res.status(401)

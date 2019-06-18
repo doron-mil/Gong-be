@@ -8,7 +8,7 @@ function errorHandler(err, req, res, next) {
   const loggerLevel = httpStatusCode === 500 ? 'error' : 'verbose';
 
   logger.log(loggerLevel, err.message);
-  responder.sendErrorResponse(res, httpStatusCode, userSafeMessage);
+  responder.sendErrorResponse(res, httpStatusCode, userSafeMessage, err, req);
 }
 
 module.exports = errorHandler;

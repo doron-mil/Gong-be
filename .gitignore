@@ -17,4 +17,5 @@ node_modules/
 *.log
 
 # Build
+build/
 dist/

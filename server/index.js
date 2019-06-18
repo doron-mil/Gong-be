@@ -1,5 +1,4 @@
 const config = require('config');
-const moment = require('moment');
 const app = require('./app');
 const db = require('../lib/db');
 const logger = require('../lib/logger');
