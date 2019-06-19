@@ -43,7 +43,7 @@ describe('Test gongsManager - Handling Manual Gongs', () => {
         time: aTime,
         gong: {
           areas: [1, 2],
-          gongType: 1,
+          gongType: Math.floor(Math.random() * 4),
         },
       };
       const wasAddingSuccess = await gongsManager.addManualGong(manualGong);
