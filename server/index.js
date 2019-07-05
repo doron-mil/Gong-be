@@ -1,6 +1,6 @@
 const config = require('config');
 const app = require('./app');
-const db = require('../lib/db');
+// const db = require('../lib/db');
 const logger = require('../lib/logger');
 
 const scheduleManager = require('../lib/scheduleManager');
@@ -14,9 +14,9 @@ app.listen(PORT, () => {
   logger.log('info', 'Press CTRL-C to stop\n');
 });
 
-db.connection.on('error', (err) => {
-  logger.log('error', `connection error:${err}`);
-});
+// db.connection.on('error', (err) => {
+//   logger.log('error', `connection error:${err}`);
+// });
 
 scheduleManager.start();
 scheduleManager.setExecutor(relayAndSoundManager.playGongForJob);

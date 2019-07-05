@@ -1,34 +1,8 @@
-const { exec } = require('child_process');
-const os = require('os');
+const ftdi = require('FT245RL');
 const logger = require('../lib/logger');
-const ExecError = require('../model/execError');
 const RunPromiseRoutineInQueue = require('../lib/utils/runPromiseRoutineInQueue');
 
-/**
- JAR
-
- The command to be run to access the relay.
-
- The first part runs java expecting a jar. (assumes java location)
- The second part is the name of the jar. (assumes the name of the jar)
-
- note: ./ assumes that the jar is in the same directory as the node app
-
- -- reference is in ---
- http://denkovi.com/denkovi-relay-command-line-tool
- // The second part can be rewritten to be passed as a parameter
- */
-let JAVA = '/usr/bin/java -jar ';
-if (os.platform() === 'win32') {
-  JAVA = '"C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath\\java" -jar ';
-}
-const JAR = './lib/denkovi/DenkoviRelayCommandLineTool_27.jar ';
-const FTDI_ID_NO_SPACE = 'DAE002N9';
-const FTDI_ID = `${FTDI_ID_NO_SPACE} `;
 const NO_OF_PORTS = 4;
-const RELAY_NO_DEVICE = JAVA + JAR;
-const RELAY = RELAY_NO_DEVICE + FTDI_ID;
-const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 
 /**
  * @param {number[]} aRelayPortsArray
@@ -44,36 +18,37 @@ const convertPortsArrayToBinNumber = (aRelayPortsArray) => {
   return binArray.join('');
 };
 
-let gDeviceLastConnectionStatus = true;
-
-const computeDeviceConnected = (aDeviceListString) => {
-  gDeviceLastConnectionStatus = aDeviceListString.includes(FTDI_ID_NO_SPACE);
-};
-
-// eslint-disable-next-line arrow-body-style
-const computeCommandToRun = (aCommandToRun, aWithDevice = true) => {
-  return `${aWithDevice ? RELAY : RELAY_NO_DEVICE}${aCommandToRun}`;
-};
-
 /**
  *
  * @param {RelaysModule} aRelaysModuleObject
  * @return {Promise<any>}
  */
-const checkDeviceConnected = (aRelaysModuleObject) => {
-  const promiseResult = new Promise((resolve) => {
-    const computedCommand = computeCommandToRun('list', false);
-    const commandPromiseResult = aRelaysModuleObject.runPromisesInQueue.run(computedCommand);
-    commandPromiseResult.then(/** @param {string} listCommandResult */(listCommandResult) => {
-      computeDeviceConnected(listCommandResult);
-      resolve(gDeviceLastConnectionStatus);
-    }).catch((error) => {
-      logger.relayAndSoundManager.error('RelaysModule::checkDeviceConnected ERROR', error);
-      resolve(false);
+const connectDevice = (aRelaysModuleObject) => {
+  return new Promise((resolve, reject) => {
+    ftdi.findFirst().then((device) => {
+      const { description, serialNumber, vendorId, productId } = device.deviceSettings;
+      const foundPref = '################## Found Device';
+      logger.relayAndSoundManager
+        .info(`${foundPref} : ${serialNumber} ${description} vendorId :${vendorId} productId: ${productId}`);
+      device.on('error', (error) => {
+        ftdi.closeDevice(device);
+        aRelaysModuleObject.setFtdiDevice(null);
+        logger.relayAndSoundManager.error('Device in error...', {error});
+      });
+
+      ftdi.openDevice(device, (error) => {
+        if (error) {
+          logger.relayAndSoundManager.error('Failed to open', {error});
+          reject(error);
+        } else {
+          aRelaysModuleObject.setFtdiDevice(device);
+          resolve(device);
+        }
+      });
+    }).catch((err) => {
+      reject(err);
     });
   });
-
-  return promiseResult;
 };
 
 
@@ -85,82 +60,105 @@ const checkDeviceConnected = (aRelaysModuleObject) => {
  * @param aIsFirstCall
  * @return {Promise<any>}
  */
-const runCommandInQueue = (aRelaysModuleObject, aCommandToRun, aWithDevice = true, aIsFirstCall = true) => {
-  const errorPrefix = 'RelaysModule::checkDeviceConnected ';
+const runCommandInQueue = (aRelaysModuleObject, aCommandToRun) => {
+  const errorPrefix = 'RelaysModule::runCommandInQueue ';
   let deviceIsReadyPromise = Promise.resolve(true);
-  if (!gDeviceLastConnectionStatus) {
-    deviceIsReadyPromise = checkDeviceConnected(aRelaysModuleObject);
+  if (!aRelaysModuleObject.FtdiDevice) {
+    deviceIsReadyPromise = connectDevice(aRelaysModuleObject);
   }
   const promiseResult = new Promise((resolve, reject) => {
-    deviceIsReadyPromise.then((isDeviceREady) => {
-      if (isDeviceREady && aIsFirstCall) {
-        const computedCommand = computeCommandToRun(aCommandToRun, aWithDevice);
-        aRelaysModuleObject.runPromisesInQueue.run(computedCommand)
-          .then((resolveResult) => {
-            resolve(resolveResult);
-          })
-          .catch((error) => {
-            logger.relayAndSoundManager.error(`${errorPrefix} ERROR`, error);
-            gDeviceLastConnectionStatus = false;
-            runCommandInQueue(aRelaysModuleObject, aCommandToRun, aWithDevice, false)
-              .then((resolveResult) => resolve(resolveResult))
-              .catch((errorResult) => reject(errorResult));
-          });
-      } else if (!IS_PRODUCTION) {
-        logger.relayAndSoundManager.info(`${errorPrefix} Device Not ready - Dev Mode`);
-        resolve(false);
-      } else {
-        reject(new Error('Device Not connected'));
-      }
+    deviceIsReadyPromise.then(() => {
+      aRelaysModuleObject.runPromisesInQueue.run(aCommandToRun)
+        .then((resolveResult) => {
+          resolve(resolveResult);
+        })
+        .catch((error) => {
+          logger.relayAndSoundManager.error(`${errorPrefix} Error in executing command (${aCommandToRun})`, { error });
+          reject(error);
+        });
+    }).catch((error) => {
+      logger.relayAndSoundManager.error(`${errorPrefix} Couldn't execute command (${aCommandToRun})`, { error });
+      resolve(false);
     });
   });
   return promiseResult;
 };
 
-const functionToRunCommands = (aPayload) => {
-  return new Promise((resolve, reject) => {
-    exec(aPayload, (error, stdout, stderr) => {
-      if (error !== null) {
-        reject(new ExecError(error, stderr));
-      } else {
-        resolve(stdout);
+/**
+ *
+ * @param {RelaysModule} aRelaysModuleObject
+ * @return
+ */
+const functionToRunCommands = (aRelaysModuleObject) => {
+  const errorPrefix = 'RelaysModule::functionToRunCommands ';
+  return (aPayload) => {
+    return new Promise((resolve, reject) => {
+      const tokensArray = aPayload.split(' ');
+      if (!tokensArray || tokensArray.length < 2 || (tokensArray[1] !== 'find' && tokensArray.length < 3)) {
+        reject(new Error(`${errorPrefix}. Invalid command : ${aPayload}`));
+        return;
       }
-    });
-  });
+      if ((tokensArray[1] !== 'find' && !aRelaysModuleObject.FtdiDevice)) {
+        reject(new Error(`${errorPrefix}. FTDI device not set. Command : ${aPayload}`));
+        return;
+      }
+      const callBackTemplate = (aError) => {
+        if (!aError) {
+          resolve();
+        } else {
+          reject(aError);
+        }
+      };
+      let isOn;
+      let portOnArray;
+      switch (tokensArray[1]) {
+        case 'find':
+          ftdi.findFirst().then((device) => {
+            ftdi.openDevice(device, (err) => {
+              if (!err) {
+                resolve(device);
+              } else {
+                reject(err);
+              }
+            });
+          })
+            .catch((err => reject(err)));
+          break;
+        case 'all':
+          isOn = tokensArray[2] === '1';
+          ftdi.switchAllPorts(aRelaysModuleObject.FtdiDevice, isOn, (err) => {
+            callBackTemplate(err);
+          });
+          break;
+        case 'turn':
+          portOnArray = Array.from(tokensArray[2]).map((x => Number.parseInt(x, 10)));
+          ftdi.switchPorts(aRelaysModuleObject.FtdiDevice, portOnArray, (err) => callBackTemplate(err));
+          break;
+        default:
+          reject(new Error(`${errorPrefix}. Could not interpret payload : ${aPayload}`));
+          break;
+      }
+    }); // Of ret Promise
+  };
 };
+
 
 class RelaysModule {
   constructor() {
-    this.runPromisesInQueue = new RunPromiseRoutineInQueue(functionToRunCommands);
-    const promiseRes = runCommandInQueue(this, 'list', false);
-    promiseRes.then((result) => {
-      computeDeviceConnected(result);
-      const divider = '--------------------------------------------------------------------';
-      logger.relayAndSoundManager.info(
-        `FTDI List output :\n${divider}\n${result}${divider}`,
-      );
+    const errorPrefix = 'RelaysModule::constructor';
+    this.FtdiDevice = null;
+    this.runPromisesInQueue = new RunPromiseRoutineInQueue(functionToRunCommands(this));
+
+    connectDevice(this).then(() => {
+      logger.relayAndSoundManager.info(`${errorPrefix} Managed to connect to device`);
+
+    }).catch((error) => {
+      logger.relayAndSoundManager.error(`${errorPrefix} Couldn't connect to device`, { error });
     });
   }
 
-  getRelayStatus(aRelayPortNo) {
-    const getStatusCommand = `${NO_OF_PORTS} ${aRelayPortNo} status`;
-    const returnedStatus = runCommandInQueue(this, getStatusCommand);
-    return returnedStatus;
-  }
-
-  toggleRelay(aRelayPortNo) {
-    const currentStatus = this.getRelayStatus(aRelayPortNo);
-    currentStatus.then((retData) => {
-      const newCurrentStatus = !retData || retData.indexOf('0') >= 0 ? 1 : 0;
-      const setStatusCommand = `${NO_OF_PORTS} ${aRelayPortNo} ${newCurrentStatus}`;
-      return runCommandInQueue(this, setStatusCommand);
-    }).catch((error) => console.error(error));
-  }
-
-  setRelayPort(aRelayPortNo, aIsOn) {
-    const newCurrentStatus = aIsOn ? 1 : 0;
-    const setStatusCommand = `${NO_OF_PORTS} ${aRelayPortNo} ${newCurrentStatus}`;
-    return runCommandInQueue(this, setStatusCommand);
+  setFtdiDevice(value) {
+    this.FtdiDevice = value;
   }
 
   /**
@@ -170,7 +168,7 @@ class RelaysModule {
   turnRelayPortsOn(aRelayPortsNumbersArray) {
     if (!aRelayPortsNumbersArray || !Array.isArray(aRelayPortsNumbersArray)
       || aRelayPortsNumbersArray.length > NO_OF_PORTS || aRelayPortsNumbersArray.includes(0)) {
-      return this.setRelayPorstAll(true);
+      return this.setRelayPortsAll(true);
     }
     const relayPortsToTurnBinNumber = convertPortsArrayToBinNumber(aRelayPortsNumbersArray);
     const setStatusCommand = `${NO_OF_PORTS} turn ${relayPortsToTurnBinNumber}`;
@@ -181,10 +179,10 @@ class RelaysModule {
    * @param {boolean} aIsOn
    * @returns {Promise|Promise<any>}
    */
-  setRelayPorstAll(aIsOn = true) {
+  setRelayPortsAll(aIsOn = true) {
     const newCurrentStatus = aIsOn ? 1 : 0;
-    const setRellayCommand = `${NO_OF_PORTS} all ${newCurrentStatus}`;
-    const run = runCommandInQueue(this, setRellayCommand);
+    const setRelayCommand = `${NO_OF_PORTS} all ${newCurrentStatus}`;
+    const run = runCommandInQueue(this, setRelayCommand);
     return run;
   }
 }
