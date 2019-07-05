@@ -11,8 +11,9 @@ const responseJson = {
 };
 
 router.post('/playGong', (req, res) => {
-  const relayStatusVal = relayAndSoundManager.playImmediateGong(req.body);
-  res.send(relayStatusVal);
+  relayAndSoundManager.playImmediateGong(req.body).then(() => res.send({ gongSuccessPlay: true }))
+    .catch(() => res.send({ gongSuccessPlay: false }));
+
 });
 
 router.post('/toggleSwitch', (req, res) => {
