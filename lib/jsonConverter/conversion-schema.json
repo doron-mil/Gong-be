@@ -1,0 +1,33 @@
+[
+  {
+    "className": "ManualGong",
+    "propertyConversionArray": [
+      {
+        "propertyName": "time",
+        "conversionFunctionName": "zeroSecondsInTime"
+      },
+      {
+        "propertyName": "gong",
+        "type": "Gong"
+      },
+      {
+        "propertyName": "isActive"
+      }
+    ]
+  },
+  {
+    "className": "Gong",
+    "propertyConversionArray": [
+      {
+        "propertyName": "areas",
+        "conversionFunctionName": "areasConversion"
+      },
+      {
+        "propertyName": "gongType"
+      },
+      {
+        "propertyName": "volume"
+      }
+    ]
+  }
+]
