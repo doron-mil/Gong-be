@@ -1,4 +1,4 @@
-const ftdi = require('FT245RL');
+const ftdi = require('ft245rl');
 const logger = require('../lib/logger');
 const RunPromiseRoutineInQueue = require('../lib/utils/runPromiseRoutineInQueue');
 
