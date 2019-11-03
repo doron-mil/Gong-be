@@ -5,18 +5,34 @@
   },
   {
     "id": 1,
-    "name": "workers"
+    "name": "area1"
   },
   {
     "id": 2,
-    "name": "hall"
+    "name": "area2"
   },
   {
     "id": 3,
-    "name": "dining"
+    "name": "area3"
   },
   {
     "id": 4,
-    "name": "outside"
+    "name": "area4"
+  },
+  {
+    "id": 5,
+    "name": "area5"
+  },
+  {
+    "id": 6,
+    "name": "area6"
+  },
+  {
+    "id": 7,
+    "name": "area7"
+  },
+  {
+    "id": 8,
+    "name": "area8"
   }
 ]

@@ -2,7 +2,7 @@ const ftdi = require('FT245RL');
 const logger = require('../lib/logger');
 const RunPromiseRoutineInQueue = require('../lib/utils/runPromiseRoutineInQueue');
 
-const NO_OF_PORTS = 4;
+const NO_OF_PORTS = process.env.NO_OF_PORTS ? Number.parseInt(process.env.NO_OF_PORTS,10) : 4;
 
 /**
  * @param {number[]} aRelayPortsArray
@@ -18,39 +18,45 @@ const convertPortsArrayToBinNumber = (aRelayPortsArray) => {
   return binArray.join('');
 };
 
+
+const setOnDeviceListeners = (aDevice) => {
+  aDevice.on('error', (error) => {
+    logger.relayAndSoundManager.error('DEVICE EMITTER : ON ERROR !!!', { error });
+  });
+  aDevice.on('open', () => {
+    logger.relayAndSoundManager.info('DEVICE EMITTER : ON OPEN !!!');
+  });
+  aDevice.on('data', (data) => {
+    logger.relayAndSoundManager.info(`DEVICE EMITTER : ON DATA !!! data = ${data}`);
+  });
+  aDevice.on('close', () => {
+    logger.relayAndSoundManager.info('DEVICE EMITTER : ON CLOSE !!!');
+  });
+  console.log('GO DEVICE !!!', aDevice);
+};
+
 /**
  *
  * @param {RelaysModule} aRelaysModuleObject
  * @return {Promise<any>}
  */
-const connectDevice = (aRelaysModuleObject) => {
-  return new Promise((resolve, reject) => {
+const findDevice = (aRelaysModuleObject) => {
+  const retDevicePromise = new Promise((resolve, reject) => {
     ftdi.findFirst().then((device) => {
       const { description, serialNumber, vendorId, productId } = device.deviceSettings;
       const foundPref = '################## Found Device';
       logger.relayAndSoundManager
         .info(`${foundPref} : ${serialNumber} ${description} vendorId :${vendorId} productId: ${productId}`);
-      device.on('error', (error) => {
-        ftdi.closeDevice(device);
-        aRelaysModuleObject.setFtdiDevice(null);
-        logger.relayAndSoundManager.error('Device in error...', {error});
-      });
-
-      ftdi.openDevice(device, (error) => {
-        if (error) {
-          logger.relayAndSoundManager.error('Failed to open', {error});
-          reject(error);
-        } else {
-          aRelaysModuleObject.setFtdiDevice(device);
-          resolve(device);
-        }
-      });
+      setOnDeviceListeners(device);
+      aRelaysModuleObject.setFtdiDevice(device);
+      resolve(device);
     }).catch((err) => {
+      aRelaysModuleObject.setFtdiDevice(null);
       reject(err);
     });
   });
+  return retDevicePromise;
 };
-
 
 /**
  *
@@ -64,7 +70,7 @@ const runCommandInQueue = (aRelaysModuleObject, aCommandToRun) => {
   const errorPrefix = 'RelaysModule::runCommandInQueue ';
   let deviceIsReadyPromise = Promise.resolve(true);
   if (!aRelaysModuleObject.FtdiDevice) {
-    deviceIsReadyPromise = connectDevice(aRelaysModuleObject);
+    deviceIsReadyPromise = findDevice(aRelaysModuleObject);
   }
   const promiseResult = new Promise((resolve, reject) => {
     deviceIsReadyPromise.then(() => {
@@ -82,6 +88,36 @@ const runCommandInQueue = (aRelaysModuleObject, aCommandToRun) => {
     });
   });
   return promiseResult;
+};
+
+
+const callBetweenOpenAndClose = (aRelaysModuleObject, aCallBackFunc) => {
+  const retPromise = new Promise((resolve, reject) => {
+    ftdi.openDevice(aRelaysModuleObject.FtdiDevice).then(() => {
+      let error;
+      aCallBackFunc()
+        .catch((err) => {
+          error = err;
+          logger.relayAndSoundManager.error('Failed to activate action on device', { error: err });
+        })
+        .finally(() => {
+          ftdi.closeDevice(aRelaysModuleObject.FtdiDevice).then(() => {
+            if (error) {
+              reject(error);
+            } else {
+              resolve(true);
+            }
+          }).catch((err) => {
+            logger.relayAndSoundManager.error('Failed to close device', { error: err });
+            reject(err);
+          });
+        });
+    }).catch((error) => {
+      logger.relayAndSoundManager.error('Failed to open device', { error });
+      reject(error);
+    });
+  });
+  return retPromise;
 };
 
 /**
@@ -102,37 +138,29 @@ const functionToRunCommands = (aRelaysModuleObject) => {
         reject(new Error(`${errorPrefix}. FTDI device not set. Command : ${aPayload}`));
         return;
       }
-      const callBackTemplate = (aError) => {
-        if (!aError) {
-          resolve();
-        } else {
-          reject(aError);
-        }
-      };
+
       let isOn;
       let portOnArray;
       switch (tokensArray[1]) {
         case 'find':
           ftdi.findFirst().then((device) => {
-            ftdi.openDevice(device, (err) => {
-              if (!err) {
-                resolve(device);
-              } else {
-                reject(err);
-              }
-            });
+            resolve(device);
           })
             .catch((err => reject(err)));
           break;
         case 'all':
           isOn = tokensArray[2] === '1';
-          ftdi.switchAllPorts(aRelaysModuleObject.FtdiDevice, isOn, (err) => {
-            callBackTemplate(err);
-          });
+          callBetweenOpenAndClose(aRelaysModuleObject,
+            () => ftdi.switchAllPorts(aRelaysModuleObject.FtdiDevice, isOn))
+            .then(() => resolve(true))
+            .catch((err) => reject(err));
           break;
         case 'turn':
           portOnArray = Array.from(tokensArray[2]).map((x => Number.parseInt(x, 10)));
-          ftdi.switchPorts(aRelaysModuleObject.FtdiDevice, portOnArray, (err) => callBackTemplate(err));
+          callBetweenOpenAndClose(aRelaysModuleObject,
+            () => ftdi.switchPorts(aRelaysModuleObject.FtdiDevice, portOnArray))
+            .then(() => resolve(true))
+            .catch((err) => reject(err));
           break;
         default:
           reject(new Error(`${errorPrefix}. Could not interpret payload : ${aPayload}`));
@@ -149,8 +177,8 @@ class RelaysModule {
     this.FtdiDevice = null;
     this.runPromisesInQueue = new RunPromiseRoutineInQueue(functionToRunCommands(this));
 
-    connectDevice(this).then(() => {
-      logger.relayAndSoundManager.info(`${errorPrefix} Managed to connect to device`);
+    findDevice(this).then(() => {
+      logger.relayAndSoundManager.info(`${errorPrefix} Managed to get handle to device`);
 
     }).catch((error) => {
       logger.relayAndSoundManager.error(`${errorPrefix} Couldn't connect to device`, { error });
@@ -167,7 +195,11 @@ class RelaysModule {
    */
   turnRelayPortsOn(aRelayPortsNumbersArray) {
     if (!aRelayPortsNumbersArray || !Array.isArray(aRelayPortsNumbersArray)
-      || aRelayPortsNumbersArray.length > NO_OF_PORTS || aRelayPortsNumbersArray.includes(0)) {
+      || aRelayPortsNumbersArray.some(value => (value < 0 || value > NO_OF_PORTS))) {
+      const newError = new Error(`RelaysModule::turnRelayPortsOn Invalid input array : ${aRelayPortsNumbersArray}`);
+      return Promise.reject(newError);
+    }
+    if (aRelayPortsNumbersArray.includes(0)) {
       return this.setRelayPortsAll(true);
     }
     const relayPortsToTurnBinNumber = convertPortsArrayToBinNumber(aRelayPortsNumbersArray);
