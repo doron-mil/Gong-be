@@ -1,8 +1,10 @@
+const { exec } = require('child_process');
 const ftdi = require('ft245rl');
 const logger = require('../lib/logger');
 const RunPromiseRoutineInQueue = require('../lib/utils/runPromiseRoutineInQueue');
+const ExecError = require('../model/execError');
 
-const NO_OF_PORTS = process.env.NO_OF_PORTS ? Number.parseInt(process.env.NO_OF_PORTS,10) : 4;
+const NO_OF_PORTS = process.env.NO_OF_PORTS ? Number.parseInt(process.env.NO_OF_PORTS, 10) : 4;
 
 /**
  * @param {number[]} aRelayPortsArray
@@ -84,16 +86,45 @@ const runCommandInQueue = (aRelaysModuleObject, aCommandToRun) => {
         });
     }).catch((error) => {
       logger.relayAndSoundManager.error(`${errorPrefix} Couldn't execute command (${aCommandToRun})`, { error });
-      resolve(false);
+      reject(error);
     });
   });
   return promiseResult;
 };
 
 
-const callBetweenOpenAndClose = (aRelaysModuleObject, aCallBackFunc) => {
+const openDevice = (aRelaysModuleObject, aIsFirstTry = true) => {
   const retPromise = new Promise((resolve, reject) => {
     ftdi.openDevice(aRelaysModuleObject.FtdiDevice).then(() => {
+      resolve(true);
+    }).catch((error) => {
+      // If linux - trying to rmmod the serial drivers to connect only with the FTDI library
+      if (aIsFirstTry && process.platform == 'linux') {
+        exec('rmmod ftdi_sio', (err, stdout, stderr) => {
+          if (err !== null) {
+            reject(new ExecError(err, stderr));
+          } else {
+            // Trying to get the device and open it again
+            findDevice(aRelaysModuleObject).then(() => {
+              openDevice(aRelaysModuleObject, false).then(() => resolve(true)).catch((secOpenErr) => {
+                reject(secOpenErr);
+              });
+            }).catch((secFindErr) => {
+              reject(secFindErr);
+            });
+          }
+        });
+      } else {
+        reject(error);
+      }
+    });
+  });
+  return retPromise;
+};
+
+const callBetweenOpenAndClose = (aRelaysModuleObject, aCallBackFunc) => {
+  const retPromise = new Promise((resolve, reject) => {
+    openDevice(aRelaysModuleObject).then(() => {
       let error;
       aCallBackFunc()
         .catch((err) => {
