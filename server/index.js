@@ -1,4 +1,6 @@
+const fs = require('fs')
 const config = require('config');
+const https = require('https');
 const app = require('./app');
 // const db = require('../lib/db');
 const logger = require('../lib/logger');
@@ -9,7 +11,12 @@ const relayAndSoundManager = require('../lib/relayAndSoundManager');
 
 const PORT = config.get('server.port');
 
-app.listen(PORT, () => {
+const httpsServer = https.createServer({
+  key: fs.readFileSync('certs/server.key'),
+  cert: fs.readFileSync('certs/server.pem'),
+}, app);
+
+httpsServer.listen(PORT, () => {
   logger.log('info', `Server listening on port ${PORT}!`);
   logger.log('info', 'Press CTRL-C to stop\n');
 });
