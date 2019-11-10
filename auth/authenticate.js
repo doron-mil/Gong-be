@@ -8,7 +8,7 @@ async function authenticatePassword(aPassword, aUserConfig) {
 
 async function authenticate({ username, password }) {
   if (username && password) {
-    const userConfig = authConfig.get(username);
+    const userConfig = authConfig.get(username.toLowerCase());
     if (userConfig) {
       const retToken = await authenticatePassword(password, userConfig)
         .then((res) => {
