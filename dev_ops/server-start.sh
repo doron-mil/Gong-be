@@ -4,5 +4,5 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 set -o verbose
-./home/dhamma/projects/gong_dev_ops/restore_files.sh
+/home/dhamma/projects/gong_dev_ops/restore_files.sh
 pm2 start gong_server

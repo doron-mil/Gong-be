@@ -4,5 +4,5 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 set -o verbose
-cp -r  /home/dhamma/projects/gong_backups/0_last_update/* /home/dhamma/projects/gong_server/assets/
+cp -rf  /home/dhamma/projects/gong_backups/0_last_update/assets/* /home/dhamma/projects/gong_server/assets/
 
