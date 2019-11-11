@@ -1,0 +1,14 @@
+/home/dhamma/projects/gong_server/logs/*.log {
+	daily
+	copytruncate
+	dateext
+	dateformat %Y_%m_%d_%H_%M
+	minsize 100000
+	missingok
+	rotate 200
+	notifempty
+	olddir /home/dhamma/projects/gong_logs_archive
+	createolddir 0755 dhamma dhamma
+	create 0640 dhamma dhamma
+	addextension -RESTART
+}

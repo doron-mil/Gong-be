@@ -1,0 +1,12 @@
+{
+  	"apps" : [
+		{
+	    	"name"        	: "gong_server",
+    		"script"      	: "/home/dhamma/projects/gong_server/server/index.js",
+		"env": {
+			"NODE_ENV": "production",
+			"NO_OF_PORTS"   : "8"
+			}
+	  	}
+  	]
+}
