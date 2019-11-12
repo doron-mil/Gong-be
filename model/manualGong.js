@@ -5,14 +5,14 @@ module.exports = class ManualGong {
     this.time = aTime;
     this.isActive = aIsActive;
     this.gong = aGong;
-  }
 
-  toggleActive() {
-    this.isActive = !this.isActive;
-  }
+    this.cloneWhileAddingTime = (addedTime) => {
+      const newManualGong = new ManualGong(this.time + addedTime, this.gong, this.isActive);
+      return newManualGong;
+    };
 
-  cloneWhileAddingTime(addedTime) {
-    const newManualGong = new ManualGong(this.time + addedTime, this.gong, this.isActive);
-    return newManualGong;
+    this.toggleActive = () => {
+      this.isActive = !this.isActive;
+    };
   }
 };
