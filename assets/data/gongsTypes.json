@@ -7,7 +7,7 @@
   {
     "id": 1,
     "name": "long",
-    "pathName" :"churchbell.wav"
+    "pathName" :"gong-long.wav"
   },
   {
     "id": 2,
@@ -18,5 +18,10 @@
     "id": 3,
     "name": "chanting",
     "pathName" :"chanting.mp3"
+  },
+  {
+    "id": 4,
+    "name": "bells",
+    "pathName" :"churchbell.wav"
   }
 ]
