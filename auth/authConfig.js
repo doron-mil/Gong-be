@@ -2,6 +2,13 @@ const uuidv4 = require('uuid/v4');
 
 const userMap = new Map();
 
+userMap.set('dev', {
+  id: 'dev',
+  role: 'dev',
+  encodedPasswd: '$2b$10$b8CZ//81swBg3S78um/IZu6lHu6C2KQxOCgnZXRsy/E5fI.pxFYt2',
+  tokenSecret: uuidv4(),
+});
+
 userMap.set('admin', {
   id: 'admin',
   role: 'admin',

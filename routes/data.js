@@ -24,6 +24,8 @@ router.post('/gong/remove', dataHandlers.removeGong);
 
 router.post('/coursesSchedule/add', dataHandlers.scheduleCourse);
 
+router.post('/uploadCourses', dataHandlers.uploadCourses);
+
 router.delete('/coursesSchedule/remove', dataHandlers.removeScheduledCourse);
 
 module.exports = router;

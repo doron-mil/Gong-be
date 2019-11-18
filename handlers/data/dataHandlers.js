@@ -1,6 +1,10 @@
 const fs = require('fs');
+const { IncomingForm } = require('formidable');
+
 const responder = require('../../lib/responder');
 const gongsManager = require('../../lib/gongsManager');
+const persistManager = require('../../lib/persist/persistManager');
+const logger = require('../../lib//logger');
 
 function getAreas(req, res, next) {
   const rawData = fs.readFileSync('assets/data/areas.json');
@@ -36,7 +40,7 @@ function getCourseByName(req, res, next) {
 const getManualGongsList = (req, res, next) => {
   const retList = gongsManager.getManualGongsList();
   responder.send200Response(res, retList);
-}
+};
 
 function addManualGong(req, res, next) {
   const retStatus = gongsManager.addManualGong(req.body);
@@ -79,6 +83,52 @@ function scheduleCourse(req, res, next) {
     });
 }
 
+function uploadCourses(req, res, next) {
+  const form = new IncomingForm();
+
+  form.on('file', (field, file) => {
+
+    fs.readFile(file.path, async (err, data) => {
+      if (err) {
+        const newErr = new Error('Failed to read file');
+        responder.sendErrorResponse(res, 500, 'Error in uploadCourses ', newErr, req);
+        logger.error('uploadCourses Failed', { error: err });
+      } else {
+
+        let newCoursesTemplateJson;
+        try {
+          newCoursesTemplateJson = JSON.parse(data);
+        } catch (e) {
+          const newErr = new Error('Parsing the recieved file failed - check that it is a JSON');
+          responder.sendErrorResponse(res, 500, 'Error in uploadCourses ', newErr, req);
+          logger.error('uploadCourses Failed', { error: e });
+          return;
+        }
+
+        try {
+          await persistManager.addCoursesTemplates(newCoursesTemplateJson);
+          responder.send200Response(res);
+        } catch (e) {
+          responder.sendErrorResponse(res, 500, 'Error in uploadCourses ', e, req);
+          logger.error('uploadCourses Failed', { error: e });
+        }
+      }
+    });
+  });
+
+  form.on('error', (err) => {
+    const newErr = new Error('Failed on processing the file');
+    responder.sendErrorResponse(res, 500, 'Error in uploadCourses ', newErr);
+    logger.error('uploadCourses Failed', { error: err });
+  });
+
+  form.on('end', () => {
+    logger.info('uploadCourses : Upload ended');
+  });
+
+  form.parse(req);
+}
+
 function removeScheduledCourse(req, res, next) {
   const retStatus = gongsManager.removeScheduledCourse(req.body);
 
@@ -101,5 +151,6 @@ module.exports = {
   toggleGong,
   removeGong,
   scheduleCourse,
+  uploadCourses,
   removeScheduledCourse,
 };

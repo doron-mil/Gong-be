@@ -12,13 +12,17 @@ certutil -d sql:$HOME/.pki/nssdb -A -t "P,," -n gong.pamoda.dhamma3 -i gong.pamo
 certutil -d sql:$HOME/.pki/nssdb -A -t "C,," -n gongCert -i gong.pamoda.dhamma3
 certutil -d sql:$HOME/.pki/nssdb -L
 
-3. run server 
+3. run server
 sudo NO_OF_PORTS=8 NODE_ENV=production node ./gong_server/server
 
 4. installed pm2 with npm i
 
 5. run pm2
 sudo NO_OF_PORTS=8 NODE_ENV=production  pm2 start ./server/index.js
+
+pm2 kill
+sudo pm2 start /home/dhamma/projects/gong_dev_ops/gong_server_pm2_config.json
+
 
 6. adding log archive mechanism using logrotate
 adding logrotate file in /etc/logrotate.d/gong
