@@ -7,22 +7,34 @@ fi
 set +v
 
 echo -e "╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦"
-echo -e "RUNNING SCRIPT :  backup_files.sh      ************************    START    ************************"
+echo -e "RUNNING SCRIPT :  server_stop.sh       ************************    START    ************************"
 echo -e "⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇"
 
 set -v
-
-now=$(date +"%Y_%m_%d_%H_%M_%S")
-mkdir -p /home/dhamma/projects/gong_backups
-mkdir /home/dhamma/projects/gong_backups/${now}
-mkdir -p /home/dhamma/projects/gong_backups/0_last_update
-rm -rf /home/dhamma/projects/gong_backups/0_last_update/*
-cp -r /home/dhamma/projects/gong_server/assets/ /home/dhamma/projects/gong_backups/${now}
-cp -r /home/dhamma/projects/gong_server/assets/ /home/dhamma/projects/gong_backups/0_last_update
+pm2 stop gong_server
 
 set +v
+echo -e "----------------------------------------------------------------------------------------------------"
+
+set -v
+logrotate /home/dhamma/projects/gong_dev_ops/gong_logrotate  -fv -s /home/dhamma/projects/gong_dev_ops/t_logrotate_state
+
+set +v
+echo -e "----------------------------------------------------------------------------------------------------"
+
+set -v
+/home/dhamma/projects/gong_dev_ops/backup_files.sh
+
+set +v
+echo -e "----------------------------------------------------------------------------------------------------"
+
+set -v
+rm -rf /home/dhamma/projects/gong_server/*
+
+set +v
+echo -e "----------------------------------------------------------------------------------------------------"
+
 
 echo -e "⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆"
-echo -e "SCRIPT  :  backup_files.sh HAS ENDED   ************************    START    ************************"
+echo -e "SCRIPT  :  server_stop.sh HAS ENDED    ************************    START    ************************"
 echo -e "╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩"
-

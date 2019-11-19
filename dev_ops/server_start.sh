@@ -5,24 +5,26 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 set +v
-
 echo -e "╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦"
-echo -e "RUNNING SCRIPT :  backup_files.sh      ************************    START    ************************"
+echo -e "RUNNING SCRIPT :  server_start.sh      ************************    START    ************************"
 echo -e "⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇"
 
-set -v
 
-now=$(date +"%Y_%m_%d_%H_%M_%S")
-mkdir -p /home/dhamma/projects/gong_backups
-mkdir /home/dhamma/projects/gong_backups/${now}
-mkdir -p /home/dhamma/projects/gong_backups/0_last_update
-rm -rf /home/dhamma/projects/gong_backups/0_last_update/*
-cp -r /home/dhamma/projects/gong_server/assets/ /home/dhamma/projects/gong_backups/${now}
-cp -r /home/dhamma/projects/gong_server/assets/ /home/dhamma/projects/gong_backups/0_last_update
+echo -e "----------------------------------------------------------------------------------------------------"
+
+set -v
+/home/dhamma/projects/gong_dev_ops/restore_files.sh
 
 set +v
+echo -e "----------------------------------------------------------------------------------------------------"
+
+set -v
+pm2 start gong_server
+
+set +v
+echo -e "----------------------------------------------------------------------------------------------------"
+
 
 echo -e "⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆"
-echo -e "SCRIPT  :  backup_files.sh HAS ENDED   ************************    START    ************************"
+echo -e "SCRIPT  :  server_start.sh HAS ENDED   ************************    START    ************************"
 echo -e "╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩"
-
