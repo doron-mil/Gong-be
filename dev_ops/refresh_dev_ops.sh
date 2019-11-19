@@ -13,6 +13,8 @@ echo -e "RUNNING SCRIPT :  refresh_dev_ops.sh     *****************   MAIN -- ST
 echo -e "****************************************************************************************************" 2>&1 | tee -a "${new_log_file}"
 echo -e "⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇" 2>&1 | tee -a "${new_log_file}"
 echo -e "****************************************************************************************************" 2>&1 | tee -a "${new_log_file}"
+echo
+echo
 
 set -v
 mkdir -p /home/dhamma/projects/gong_dev_ops/tmp 2>&1 | tee -a "${new_log_file}"
@@ -21,9 +23,11 @@ cd /home/dhamma/projects/gong_dev_ops/tmp
 /home/dhamma/projects/gong_dev_ops/refresh_dev_ops_actions.sh 2>&1 | tee -a "${new_log_file}"
 
 set +v
+echo
+echo
 echo -e "****************************************************************************************************" 2>&1 | tee -a "${new_log_file}"
 echo -e "⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆" 2>&1 | tee -a "${new_log_file}"
 echo -e "****************************************************************************************************" 2>&1 | tee -a "${new_log_file}"
-echo -e " SCRIPT refresh_dev_ops.sh RUNNING HAS ENDED      *****************   MAIN -- END    ****************" 2>&1 | tee -a "${new_log_file}"
+echo -e "SCRIPT refresh_dev_ops.sh RUNNING HAS ENDED      *****************   MAIN -- END    ****************" 2>&1 | tee -a "${new_log_file}"
 echo -e "****************************************************************************************************" 2>&1 | tee -a "${new_log_file}"
 
