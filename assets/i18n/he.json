@@ -1,0 +1,233 @@
+{
+  "none": "ללא",
+  "general": {
+    "typesValues": {
+      "gongType": {
+        "values": {
+          "long": "צלצול ארוך",
+          "short": "צלצול קצר",
+          "single": "צלצול יחיד",
+          "chanting": "שיר",
+          "bells": "פעמונים"
+        }
+      },
+      "areas": {
+        "values": {
+          "all": "כל האיזורים",
+          "area1": "עובדים",
+          "area2": "אולם",
+          "area3": "חדר אוכל",
+          "area4": "בחוץ",
+          "area5": "איזור 5",
+          "area6": "איזור 6",
+          "area7": "איזור 7",
+          "area8": "איזור 8"
+        }
+      }
+    },
+    "header": {
+      "information": "כותרת מתורגמת",
+      "details": "כותרת שניה"
+    },
+    "tableHeaders": {
+      "gongsTimeTable": {
+        "day": "יום",
+        "date": "תאריך",
+        "isOn": "פעיל",
+        "time": "זמן הצלצול",
+        "gongType": "סוג הצלצול",
+        "area": "מקום",
+        "volume": "עוצמה"
+      }
+    },
+    "messages": {
+      "couldNotDeleteScheduledGong": " %s לא הצליחה מחיקת הגונג שמתוארך ל:",
+      "couldNotScheduleObsoleteGong": "יש לבחור זמן עתידי",
+      "gongPlayedSuccessfully": "גונג נוגן בהצלחה",
+      "gongPlayedFailed": "נכשלה בקשה לניגון גונג",
+      "coursesUploadedSuccessfully": "ייבוא קורסים התסיים בהצלחה",
+      "coursesUploadFailed": "ייבוא קורסים נכשל"
+    }
+  },
+  "main": {
+    "labels": {
+      "currentTime": "זמן נוכחי",
+      "nextGong": "הגונג הבא"
+    },
+    "tooltips": {
+      "manual": {
+        "true": "ידני",
+        "false": "אוטומטי"
+      }
+    },
+    "tabs": {
+      "manual": "ידני",
+      "automatic": "אוטומטי",
+      "config": "תצורה"
+    },
+    "menu": {
+      "language": {
+        "main": "שפה",
+        "subMenu": {
+          "he": "עברית",
+          "en": "אנגלית"
+        }
+      },
+      "dateFormat": {
+        "main": "פורמט תאריך",
+        "delimiter": "מפריד"
+      },
+      "exportImport": {
+        "main": "ייבא/ייצא",
+        "subMenu": {
+          "export": {
+            "main": "ייצא",
+            "course" : "תבנית קורס"
+          },
+          "import": {
+            "main": "יבא",
+            "course" : "תבנית קורס"
+          }
+        }
+      },
+      "logout": "יציאה"
+    }
+  },
+  "manualActivation": {
+    "dropdowns": {
+      "gongType": {
+        "label": "סוג",
+        "values": {
+          "LONG_GONG": "צלצול ארוך",
+          "SHORT_GONG": "צלצול קצר",
+          "SINGLE_GONG": "צלצול יחיד",
+          "CHANTING": "שיר"
+        }
+      },
+      "areas": {
+        "label": "איזורים",
+        "values": {
+          "all": "כל האיזורים",
+          "area1": "עובדים",
+          "area2": "אולם",
+          "area3": "חדר אוכל",
+          "area4": "בחוץ",
+          "area5": "איזור 5",
+          "area6": "איזור 6",
+          "area7": "איזור 7",
+          "area8": "איזור 8"
+        }
+      }
+    },
+    "labels": {
+      "volume": "עוצמה"
+    },
+    "buttons": {
+      "play": "נגן",
+      "schedulePlay": "תזמן"
+    },
+    "messages": {
+      "areaIsEmpty": "יש לבחור לפחות איזור אחד"
+    }
+  },
+  "automaticActivation": {
+    "scheduleTable": {
+      "headers": {
+        "name": "שם קורס",
+        "date": "תאריך תחילה",
+        "daysCount": "מס ימים"
+      },
+      "courseName": {
+        "10_day_course": "10 ימים",
+        "satipattana": "סאטיפטהאנה",
+        "test": "זהו תרגיל",
+        "test2": "MinTest"
+      }
+    },
+    "selectedCourseTable": {
+      "headers": {
+        "day": "יום",
+        "date": "תאריך",
+        "isOn": "פעיל",
+        "time": "זמן הצלצול",
+        "gongType": "סוג הצלצול",
+        "area": "מקום"
+      }
+    },
+    "buttons": {
+      "scheduleCourse": "הוסף קורס",
+      "removeCourse": "מחק קורס",
+      "updateCourse": "עדכן קורס",
+      "nextAutoGong": "הגונג הבא"
+    },
+    "alerts": {
+      "confirmRemoveSchedule": {
+        "title": "מחיקת קורס מתוכנן",
+        "text": "האם את/ה בטוח/ה?",
+        "buttons": {
+          "cancel": "ביטול",
+          "confirm": "כן"
+        }
+      }
+    }
+  },
+  "dialogs": {
+    "scheduleCourse": {
+      "header": {
+        "new": "הוסף קורס",
+        "update": "עדכן קורס"
+      },
+      "labels": {
+        "courseName": "שם קורס",
+        "dayStart": "התחל מיום",
+        "date": "תאריך קורס",
+        "isTest": "לבדיקות בלבד",
+        "testHoursRange": "טווח שעות לבדיקה",
+        "testHoursRangeStart": "התחלה",
+        "testHoursRangeEnd": "סוף"
+      },
+      "placeHolders": {
+        "courseName": "בחר קורס",
+        "dayStart": "בחר יום קורס להתחלה"
+      },
+      "buttons": {
+        "scheduleCourse": "תזמן קורס",
+        "cancel": "בטל"
+      }
+    },
+    "selectCourses": {
+      "header": {
+        "download": "בחר קורסים להורדה",
+        "delete": "בחר קורסים למחיקה"
+      },
+      "buttons": {
+        "submit": "בצע",
+        "cancel": "בטל"
+      }
+    }
+  },
+  "gongsTimeTable": {
+    "confirmations": {
+      "disableDeleteGong": {
+        "title": {
+          "disable": "DeActivate a Gong",
+          "delete": "Delete a Gong"
+        },
+        "text": "האם בטוח/ה שרוצה לבצע את הפעולה?",
+        "buttons": {
+          "cancel": "ביטול",
+          "confirm": {
+            "disable": "DeActivate",
+            "delete": "מחק"
+          }
+        }
+      }
+    }
+  },
+  "config":{
+    "deviceSetup" : "בקר",
+    "AreasI18n" : "שמות איזורים",
+    "GongsI18n" : "שמות צלילים",
+    "CoursesI18n" : "שמות קורסים"
+  }
+}

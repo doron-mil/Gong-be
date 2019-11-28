@@ -1,0 +1,238 @@
+{
+  "none": "none",
+  "general": {
+    "typesValues": {
+      "gongType": {
+        "values": {
+          "long": "Long",
+          "short": "short",
+          "single": "Single",
+          "chanting": "Chanting",
+          "bells": "Bells"
+        }
+      },
+      "areas": {
+        "values": {
+          "all": "All",
+          "area1": "Workers",
+          "area2": "Hall",
+          "area3": "Dining",
+          "area4": "Outside",
+          "area5": "area 5",
+          "area6": "area 6",
+          "area7": "area 7",
+          "area8": "area 8"
+        }
+      }
+    },
+    "tableHeaders": {
+      "gongsTimeTable": {
+        "day": "Day",
+        "date": "Date",
+        "isOn": "Active",
+        "delete": "Delete",
+        "time": "Time",
+        "gongType": "Type",
+        "area": "Areas",
+        "volume": "Volume"
+      }
+    },
+    "messages": {
+      "couldNotDeleteScheduledGong": "Could not delete Gong dated :%s",
+      "couldNotScheduleObsoleteGong": "Have to pick future time",
+      "gongPlayedSuccessfully": "Gong Played Successfully",
+      "gongPlayedFailed": "Gong Play Request failed",
+      "coursesUploadedSuccessfully": "Courses Uploaded Successfully",
+      "coursesUploadFailed": "Courses Upload Request failed"
+    }
+  },
+  "main": {
+    "labels": {
+      "currentTime": "Current time",
+      "nextGong": "Next gong",
+      "nextGongNotAvailable": "N/A"
+    },
+    "tooltips": {
+      "manual": {
+        "true": "Manual",
+        "false": "Automatic"
+      }
+    },
+    "tabs": {
+      "manual": "Manual",
+      "automatic": "Automatic",
+      "config": "Config"
+    },
+    "menu": {
+      "language": {
+        "main": "language",
+        "subMenu": {
+          "he": "Hebrew",
+          "en": "English"
+        }
+      },
+      "dateFormat": {
+        "main": "Date Format",
+        "delimiter": "Delimiter"
+      },
+      "exportImport": {
+        "main": "Export/Import",
+        "subMenu": {
+          "export": {
+            "main": "Export",
+            "course" : "Course Template"
+          },
+          "import": {
+            "main": "Import",
+            "course" : "Course Template"
+          }
+        }
+      },
+      "logout": "Logout"
+    }
+  },
+  "manualActivation": {
+    "dropdowns": {
+      "gongType": {
+        "label": "Type",
+        "values": {
+          "LONG_GONG": "Long",
+          "SHORT_GONG": "Short",
+          "SINGLE_GONG": "Single",
+          "CHANTING": "Chanting"
+        }
+      },
+      "areas": {
+        "label": "Areas",
+        "values": {
+          "all": "All",
+          "area1": "Workers",
+          "area2": "Hall",
+          "area3": "Dining",
+          "area4": "Outside",
+          "area5": "area 5",
+          "area6": "area 6",
+          "area7": "area 7",
+          "area8": "area 8"
+        }
+      }
+    },
+    "labels": {
+      "volume": "Volume"
+    },
+    "buttons": {
+      "play": "Play",
+      "schedulePlay": "Schedule"
+    },
+    "messages": {
+      "areaIsEmpty": "Must choose at least one area"
+    }
+  },
+  "automaticActivation": {
+    "scheduleTable": {
+      "headers": {
+        "name": "Course Name",
+        "date": "Start Date",
+        "daysCount": "No. Days",
+        "startFromDay": "Day Start"
+      },
+      "courseName": {
+        "10_day_course": "10 Days",
+        "satipattana": "Satipattana",
+        "sati_short": "Sati_test",
+        "test": "test",
+        "test2": "test2",
+        "test4": "test4",
+        "test3": "test3"
+      }
+    },
+    "selectedCourseTable": {
+      "headers": {
+        "day": "Day",
+        "date": "Date",
+        "isOn": "On",
+        "time": "Time",
+        "gongType": "Type",
+        "area": "Areas"
+      }
+    },
+    "buttons": {
+      "scheduleCourse": "Schedule Course",
+      "removeCourse": "Remove Course",
+      "updateCourse": "Update Course",
+      "nextAutoGong": "Next Gong"
+    },
+    "labels": {
+      "displayDate": "Display Date"
+    },
+    "alerts": {
+      "confirmRemoveSchedule": {
+        "title": "Remove Scheduled Course",
+        "text": "Are you sure?",
+        "buttons": {
+          "cancel": "Cancel",
+          "confirm": "Yes"
+        }
+      }
+    }
+  },
+  "dialogs": {
+    "scheduleCourse": {
+      "header": {
+        "new": "Schedule A New Course",
+        "update": "Update A Course Schedule"
+      },
+      "labels": {
+        "courseName": "Course Name",
+        "dayStart": "Start from day",
+        "date": "Schedule day",
+        "isTest": "4 Test Only",
+        "testHoursRange": "Test Hours Range",
+        "testHoursRangeStart": "Start",
+        "testHoursRangeEnd": "End"
+      },
+      "placeHolders": {
+        "courseName": "Select a course",
+        "dayStart": "Select the day to start with"
+      },
+      "buttons": {
+        "scheduleCourse": "Schedule Course",
+        "cancel": "Cancel"
+      }
+    },
+    "selectCourses": {
+      "header": {
+        "download": "Select Courses for Download",
+        "delete": "Select Courses for Deletion"
+      },
+      "buttons": {
+        "submit": "Submit",
+        "cancel": "Cancel"
+      }
+    }
+  },
+  "gongsTimeTable": {
+    "confirmations": {
+      "disableDeleteGong": {
+        "title": {
+          "disable": "DeActivate a Gong",
+          "delete": "Delete a Gong"
+        },
+        "text": "Are you sure you want to proceed with this action?",
+        "buttons": {
+          "cancel": "Cancel",
+          "confirm": {
+            "disable": "DeActivate",
+            "delete": "Delete"
+          }
+        }
+      }
+    }
+  },
+  "config":{
+    "deviceSetup" : "Device Setup",
+    "AreasI18n" : "Areas names",
+    "GongsI18n" : "Gongs names",
+    "CoursesI18n" : "Courses names"
+  }
+}

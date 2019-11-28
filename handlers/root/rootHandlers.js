@@ -1,3 +1,4 @@
+const fs = require('fs');
 const moment = require('moment');
 const responder = require('../../lib/responder');
 
@@ -18,11 +19,15 @@ const authenticate = async (req, res, next) => {
 };
 
 const getNextGong = (req, res, next) => {
+  const rawData = fs.readFileSync('assets/data/staticData.json');
+  const { lastUpdatedTime } = JSON.parse(rawData.toString());
+
   const nextScheduledJob = scheduleManager.getNextScheduledJob();
   const currentServerTime = moment().valueOf();
   const retObject = {
     currentServerTime,
     nextScheduledJob,
+    staticDataLastUpdateTime: lastUpdatedTime,
   };
   responder.send200Response(res, retObject);
 };

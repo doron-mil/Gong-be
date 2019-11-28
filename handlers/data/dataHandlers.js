@@ -6,6 +6,38 @@ const gongsManager = require('../../lib/gongsManager');
 const persistManager = require('../../lib/persist/persistManager');
 const logger = require('../../lib//logger');
 
+function getStaticData(req, res, next) {
+  let rawData = fs.readFileSync('assets/data/staticData.json');
+  const staticData = JSON.parse(rawData.toString());
+
+  fs.readdir('assets/i18n', (error, files) => {
+    if (error) {
+      const newErr = new Error('Failed to read language directory');
+      responder.sendErrorResponse(res, 500, 'Error in uploadCourses ', newErr, req);
+      logger.error('Failed to read language directory', { error });
+    }
+    try {
+      const languageObj = [];
+      files.forEach((file) => {
+        rawData = fs.readFileSync(`assets/i18n/${file}`);
+        const lastDotIndex = file.lastIndexOf('.');
+        const language = file.substr(lastDotIndex - 2, 2);
+        languageObj.push({
+          language,
+          translation: JSON.parse(rawData.toString()),
+        });
+      });
+      staticData.languages = languageObj;
+
+      responder.send200Response(res, staticData);
+    } catch (e) {
+      const newErr = new Error('Failed to read languages files');
+      responder.sendErrorResponse(res, 500, 'Error in uploadCourses ', newErr, req);
+      logger.error('Failed to read languages files', { error: e });
+    }
+  });
+}
+
 function getAreas(req, res, next) {
   const rawData = fs.readFileSync('assets/data/areas.json');
   const areas = JSON.parse(rawData);
@@ -141,6 +173,7 @@ function removeScheduledCourse(req, res, next) {
 }
 
 module.exports = {
+  getStaticData,
   getAreas,
   getGongTypes,
   getCourses,

@@ -3,6 +3,8 @@ const dataHandlers = require('../handlers/data/dataHandlers');
 
 const router = express.Router();
 
+router.get('/staticData', dataHandlers.getStaticData);
+
 router.get('/areas', dataHandlers.getAreas);
 
 router.get('/gongTypes', dataHandlers.getGongTypes);
