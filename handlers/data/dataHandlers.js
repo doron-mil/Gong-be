@@ -38,24 +38,6 @@ function getStaticData(req, res, next) {
   });
 }
 
-function getAreas(req, res, next) {
-  const rawData = fs.readFileSync('assets/data/areas.json');
-  const areas = JSON.parse(rawData);
-  responder.send200Response(res, areas);
-}
-
-function getGongTypes(req, res, next) {
-  const rawData = fs.readFileSync('assets/data/gongsTypes.json');
-  const gongsTypes = JSON.parse(rawData);
-  responder.send200Response(res, gongsTypes);
-}
-
-function getCourses(req, res, next) {
-  const rawData = fs.readFileSync('assets/data/courses.json');
-  const courses = JSON.parse(rawData);
-  responder.send200Response(res, courses);
-}
-
 function getCoursesSchedule(req, res, next) {
   const rawData = fs.readFileSync('assets/data/coursesSchedule.json');
   const coursesSchedule = JSON.parse(rawData);
@@ -126,7 +108,6 @@ function uploadCourses(req, res, next) {
         responder.sendErrorResponse(res, 500, 'Error in uploadCourses ', newErr, req);
         logger.error('uploadCourses Failed', { error: err });
       } else {
-
         let newCoursesTemplateJson;
         try {
           newCoursesTemplateJson = JSON.parse(data);
@@ -174,9 +155,6 @@ function removeScheduledCourse(req, res, next) {
 
 module.exports = {
   getStaticData,
-  getAreas,
-  getGongTypes,
-  getCourses,
   getCourseByName,
   getCoursesSchedule,
   getManualGongsList,

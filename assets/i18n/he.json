@@ -3,26 +3,28 @@
   "general": {
     "typesValues": {
       "gongType": {
-        "values": {
-          "long": "צלצול ארוך",
-          "short": "צלצול קצר",
-          "single": "צלצול יחיד",
-          "chanting": "שיר",
-          "bells": "פעמונים"
-        }
+        "long": "צלצול ארוך",
+        "short": "צלצול קצר",
+        "single": "צלצול יחיד",
+        "chanting": "שיר",
+        "bells": "פעמונים"
       },
       "areas": {
-        "values": {
-          "all": "כל האיזורים",
-          "area1": "עובדים",
-          "area2": "אולם",
-          "area3": "חדר אוכל",
-          "area4": "בחוץ",
-          "area5": "איזור 5",
-          "area6": "איזור 6",
-          "area7": "איזור 7",
-          "area8": "איזור 8"
-        }
+        "all": "כל האיזורים",
+        "area1": "עובדים",
+        "area2": "אולם",
+        "area3": "חדר אוכל",
+        "area4": "בחוץ",
+        "area5": "איזור 5",
+        "area6": "איזור 6",
+        "area7": "איזור 7",
+        "area8": "איזור 8"
+      },
+      "courses": {
+        "10_day_course": "10 ימים",
+        "satipattana": "סאטיפטהאנה",
+        "test": "זהו תרגיל",
+        "test2": "MinTest"
       }
     },
     "header": {
@@ -82,11 +84,11 @@
         "subMenu": {
           "export": {
             "main": "ייצא",
-            "course" : "תבנית קורס"
+            "course": "תבנית קורס"
           },
           "import": {
             "main": "יבא",
-            "course" : "תבנית קורס"
+            "course": "תבנית קורס"
           }
         }
       },
@@ -96,27 +98,10 @@
   "manualActivation": {
     "dropdowns": {
       "gongType": {
-        "label": "סוג",
-        "values": {
-          "LONG_GONG": "צלצול ארוך",
-          "SHORT_GONG": "צלצול קצר",
-          "SINGLE_GONG": "צלצול יחיד",
-          "CHANTING": "שיר"
-        }
+        "label": "סוג"
       },
       "areas": {
-        "label": "איזורים",
-        "values": {
-          "all": "כל האיזורים",
-          "area1": "עובדים",
-          "area2": "אולם",
-          "area3": "חדר אוכל",
-          "area4": "בחוץ",
-          "area5": "איזור 5",
-          "area6": "איזור 6",
-          "area7": "איזור 7",
-          "area8": "איזור 8"
-        }
+        "label": "איזורים"
       }
     },
     "labels": {
@@ -136,12 +121,6 @@
         "name": "שם קורס",
         "date": "תאריך תחילה",
         "daysCount": "מס ימים"
-      },
-      "courseName": {
-        "10_day_course": "10 ימים",
-        "satipattana": "סאטיפטהאנה",
-        "test": "זהו תרגיל",
-        "test2": "MinTest"
       }
     },
     "selectedCourseTable": {
@@ -224,10 +203,17 @@
       }
     }
   },
-  "config":{
-    "deviceSetup" : "בקר",
-    "AreasI18n" : "שמות איזורים",
-    "GongsI18n" : "שמות צלילים",
-    "CoursesI18n" : "שמות קורסים"
+  "config": {
+    "deviceSetup": {
+      "label": "בקר"
+    },
+    "i18n": {
+      "label" : "תרגומים",
+      "radio" : {
+        "areas" : "איזורים",
+        "courses" : "קורסים",
+        "gongType" : "סוגי צלצול"
+      }
+    }
   }
 }

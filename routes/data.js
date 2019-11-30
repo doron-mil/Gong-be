@@ -5,12 +5,6 @@ const router = express.Router();
 
 router.get('/staticData', dataHandlers.getStaticData);
 
-router.get('/areas', dataHandlers.getAreas);
-
-router.get('/gongTypes', dataHandlers.getGongTypes);
-
-router.get('/courses', dataHandlers.getCourses);
-
 router.get('/coursesSchedule', dataHandlers.getCoursesSchedule);
 
 router.get('/course/:id', dataHandlers.getCourseByName);
