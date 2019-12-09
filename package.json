@@ -5,6 +5,7 @@
     "lint": "eslint server lib routes",
     "lint:fix": "npm run lint -- --fix",
     "start": "NO_OF_PORTS=8 NODE_ENV=development babel-node server",
+    "start-https": "NO_OF_PORTS=8 NODE_ENV=development HTTPS=true babel-node server",
     "clean": "find ../gong_server/** | grep -v '/dist' | xargs rm -rf && mkdir -p ../gong_server",
     "copy-modules": "cp -rf node_modules ../gong_server",
     "copy-dist-to-dev": "cp -rf ../gong_server/dist .",
