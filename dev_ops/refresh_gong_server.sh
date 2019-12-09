@@ -18,10 +18,10 @@ echo
 mkdir -p /home/dhamma/projects/gong_dev_ops/dev_ops_logs
 
 set -v
-/home/dhamma/projects/gong_dev_ops/server_stop.sh 2>&1 | tee -a "${new_log_file}"
-/home/dhamma/projects/gong_dev_ops/refresh_gong_server_be.sh 2>&1 | tee -a "${new_log_file}"
-/home/dhamma/projects/gong_dev_ops/refresh_gong_server_fe.sh 2>&1 | tee -a "${new_log_file}"
-/home/dhamma/projects/gong_dev_ops/server_start.sh 2>&1 | tee -a "${new_log_file}"
+/home/dhamma/projects/gong_dev_ops/dev_ops/server_stop.sh 2>&1 | tee -a "${new_log_file}"
+/home/dhamma/projects/gong_dev_ops/dev_ops/refresh_gong_server_be.sh 2>&1 | tee -a "${new_log_file}"
+/home/dhamma/projects/gong_dev_ops/dev_ops/refresh_gong_server_fe.sh 2>&1 | tee -a "${new_log_file}"
+/home/dhamma/projects/gong_dev_ops/dev_ops/server_start.sh 2>&1 | tee -a "${new_log_file}"
 set +v
 
 echo

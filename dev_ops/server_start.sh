@@ -15,7 +15,7 @@ echo
 echo -e "----------------------------------------------------------------------------------------------------"
 
 set -v
-/home/dhamma/projects/gong_dev_ops/restore_files.sh
+/home/dhamma/projects/gong_dev_ops/dev_ops/restore_files.sh
 
 set +v
 echo -e "----------------------------------------------------------------------------------------------------"
