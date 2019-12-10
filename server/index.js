@@ -1,4 +1,5 @@
 const fs = require('fs');
+const { exec } = require('child_process');
 const config = require('config');
 const http = require('http');
 const https = require('https');
@@ -19,8 +20,16 @@ const server = USE_HTTPS ? https.createServer({
 }, app) : http.createServer(app);
 
 server.listen(PORT, () => {
-  logger.log('info', `Server listening on port ${PORT} using ${USE_HTTPS ? 'https' : 'http'}`);
-  logger.log('info', 'Press CTRL-C to stop\n');
+  exec('whoami', (err, stdout, stderr) => {
+    logger.log('info', '\n');
+    logger.log('info', `Server listening on port ${PORT} using ${USE_HTTPS ? 'https' : 'http'}`);
+    logger.log('info', 'Press CTRL-C to stop');
+    if (err !== null) {
+      logger.error('Failed to retrieve whoami\n', err);
+    } else {
+      logger.log('info', `Whomai = ${stdout}\n`);
+    }
+  });
 });
 
 // db.connection.on('error', (err) => {
