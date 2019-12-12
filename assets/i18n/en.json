@@ -218,7 +218,23 @@
         "areas": "Areas",
         "courses": "Courses",
         "gongType": "Gong Types"
+      },
+      "confirm": {
+        "unsaved": {
+          "title": "Unsaved data",
+          "message": "There is unsaved data changes.<BR>Are you sure you want to discard changes?",
+          "buttons": {
+            "cancel": "Cancel",
+            "confirm": "Discard"
+          }
+        }
       }
+    },
+    "languages": {
+      "label": "Languages"
+    },
+    "deviceSetup": {
+      "label": "Device Setup2"
     }
   }
 }
