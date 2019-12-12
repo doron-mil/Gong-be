@@ -17,10 +17,7 @@ echo
 echo
 
 set -v
-mkdir -p /home/dhamma/projects/gong_dev_ops/tmp 2>&1 | tee -a "${new_log_file}"
-cp /home/dhamma/projects/gong_dev_ops/refresh_dev_ops_actions.sh  /home/dhamma/projects/gong_dev_ops/tmp 2>&1 | tee -a "${new_log_file}"
-cd /home/dhamma/projects/gong_dev_ops/tmp
-/home/dhamma/projects/gong_dev_ops/refresh_dev_ops_actions.sh 2>&1 | tee -a "${new_log_file}"
+/home/dhamma/projects/gong_dev_ops/dev_ops/refresh_dev_ops_actions.sh 2>&1 | tee -a "${new_log_file}"
 
 set +v
 echo

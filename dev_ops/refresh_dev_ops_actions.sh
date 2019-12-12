@@ -19,18 +19,13 @@ mkdir -p /home/dhamma/projects/gong_dev_ops/dev_ops_backups
 newBackupDir="/home/dhamma/projects/gong_dev_ops/dev_ops_backups/${now}"
 mkdir "${newBackupDir}"
 
-cp -r /home/dhamma/projects/gong_dev_ops/*.sh "${newBackupDir}"
-cp -r /home/dhamma/projects/gong_dev_ops/*.txt "${newBackupDir}"
-cp -r /home/dhamma/projects/gong_dev_ops/*.json "${newBackupDir}"
-cp -r /home/dhamma/projects/gong_dev_ops/gong_logrotate "${newBackupDir}"
-
-rm -f /home/dhamma/projects/gong_dev_ops/*
+cp -r /home/dhamma/projects/gong_dev_ops/dev_ops/*.* "${newBackupDir}"
 
 set +v
 echo -e "----------------------------------------------------------------------------------------------------"
 
 set -v
-cd /home/dhamma/projects/Gong-be/dev_ops
+cd /home/dhamma/projects/gong_dev_ops/
 
 set +v
 echo -e "----------------------------------------------------------------------------------------------------"
@@ -42,13 +37,14 @@ set +v
 echo -e "----------------------------------------------------------------------------------------------------"
 
 set -v
-git pull
+git pull origin master
 
 set +v
 echo -e "----------------------------------------------------------------------------------------------------"
 
 set -v
-cp -r /home/dhamma/projects/Gong-be/dev_ops/* /home/dhamma/projects/gong_dev_ops/
+cp -f /home/dhamma/projects/gong_dev_ops/dev_ops/refresh_dev_ops.sh /home/dhamma/projects/gong_dev_ops/
+cp -f /home/dhamma/projects/gong_dev_ops/dev_ops/refresh_gong_server.sh /home/dhamma/projects/gong_dev_ops/
 
 set +v
 echo

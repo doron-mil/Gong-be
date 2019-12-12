@@ -19,13 +19,13 @@ set +v
 echo -e "----------------------------------------------------------------------------------------------------"
 
 set -v
-logrotate /home/dhamma/projects/gong_dev_ops/gong_logrotate  -fv -s /home/dhamma/projects/gong_dev_ops/t_logrotate_state
+logrotate /home/dhamma/projects/gong_dev_ops/dev_ops/gong_logrotate  -fv -s /home/dhamma/projects/gong_dev_ops/t_logrotate_state
 
 set +v
 echo -e "----------------------------------------------------------------------------------------------------"
 
 set -v
-/home/dhamma/projects/gong_dev_ops/backup_files.sh
+/home/dhamma/projects/gong_dev_ops/dev_ops/backup_files.sh
 
 set +v
 echo -e "----------------------------------------------------------------------------------------------------"

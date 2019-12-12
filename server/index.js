@@ -1,5 +1,7 @@
-const fs = require('fs')
+const fs = require('fs');
+const { exec } = require('child_process');
 const config = require('config');
+const http = require('http');
 const https = require('https');
 const app = require('./app');
 // const db = require('../lib/db');
@@ -9,16 +11,25 @@ const scheduleManager = require('../lib/scheduleManager');
 const gongsManager = require('../lib/gongsManager');
 const relayAndSoundManager = require('../lib/relayAndSoundManager');
 
-const PORT = config.get('server.port');
+const PORT = config.get('server.port') || 3001;
+const USE_HTTPS = !!process.env.HTTPS;
 
-const httpsServer = https.createServer({
+const server = USE_HTTPS ? https.createServer({
   key: fs.readFileSync('certs/server.key'),
   cert: fs.readFileSync('certs/server.pem'),
-}, app);
+}, app) : http.createServer(app);
 
-httpsServer.listen(PORT, () => {
-  logger.log('info', `Server listening on port ${PORT}!`);
-  logger.log('info', 'Press CTRL-C to stop\n');
+server.listen(PORT, () => {
+  exec('whoami', (err, stdout, stderr) => {
+    logger.log('info', '\n');
+    logger.log('info', `Server listening on port ${PORT} using ${USE_HTTPS ? 'https' : 'http'}`);
+    logger.log('info', 'Press CTRL-C to stop');
+    if (err !== null) {
+      logger.error('Failed to retrieve whoami\n', err);
+    } else {
+      logger.log('info', `Whomai = ${stdout}\n`);
+    }
+  });
 });
 
 // db.connection.on('error', (err) => {

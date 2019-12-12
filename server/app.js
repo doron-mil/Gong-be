@@ -16,11 +16,12 @@ app.use(cors());
 
 app.use(express.static(path.join(__dirname, '../dist')));
 app.use('/api', router);
+app.use('/mainPage', express.static(path.join(__dirname, '../dist')));
+app.use('/loginPage', express.static(path.join(__dirname, '../dist')));
 app.use('/', router);
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../dist/'));
-  // load the single view file (angular will handle the page changes on the front-end)
 });
 
 // app.get('*', notFoundHandler);
