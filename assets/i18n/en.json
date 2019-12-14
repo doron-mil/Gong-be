@@ -210,7 +210,7 @@
   },
   "config": {
     "deviceSetup": {
-      "label": "Device Setup"
+      "label": "Device3"
     },
     "i18n": {
       "label": "Translation",
@@ -228,13 +228,13 @@
             "confirm": "Discard"
           }
         }
+      },
+      "buttons": {
+        "save": "Save"
       }
     },
     "languages": {
       "label": "Languages"
-    },
-    "deviceSetup": {
-      "label": "Device Setup2"
     }
   }
 }
