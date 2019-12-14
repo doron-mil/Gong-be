@@ -142,6 +142,18 @@ function uploadCourses(req, res, next) {
   form.parse(req);
 }
 
+function languagesUpdate(req, res, next) {
+  const retLanguagesUpdatePromise = persistManager.updateLanguages(req.body);
+
+  retLanguagesUpdatePromise.then(
+    () => {
+      responder.send200Response(res, true);
+    }, (err) => {
+      responder.sendErrorResponse(res, err.httpStatusCode || 500, 'Error in scheduleCourse ', err);
+    });
+}
+
+
 function removeScheduledCourse(req, res, next) {
   const retStatus = gongsManager.removeScheduledCourse(req.body);
 
@@ -163,5 +175,6 @@ module.exports = {
   removeGong,
   scheduleCourse,
   uploadCourses,
+  languagesUpdate,
   removeScheduledCourse,
 };
