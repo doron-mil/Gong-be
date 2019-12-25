@@ -1,4 +1,6 @@
 const express = require('express');
+
+const responder = require('../lib/responder');
 const dataHandlers = require('../handlers/data/dataHandlers');
 
 const router = express.Router();
@@ -22,8 +24,15 @@ router.post('/coursesSchedule/add', dataHandlers.scheduleCourse);
 
 router.post('/uploadCourses', dataHandlers.uploadCourses);
 
+router.post('/uploadGong', dataHandlers.uploadGong);
+
 router.post('/languagesUpdate', dataHandlers.languagesUpdate);
 
+
 router.delete('/coursesSchedule/remove', dataHandlers.removeScheduledCourse);
+
+router.use((req, res) => {
+  responder.sendErrorResponse(res, 404, 'Request is not mapped for this server ', null);
+});
 
 module.exports = router;

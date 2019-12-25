@@ -142,6 +142,40 @@ function uploadCourses(req, res, next) {
   form.parse(req);
 }
 
+function uploadGong(req, res, next) {
+  const form = new IncomingForm();
+
+  form.on('file', async (field, file) => {
+    try {
+      await persistManager.addGong(file.name);
+    } catch (e) {
+      responder.sendErrorResponse(res, 500, 'Error in uploadGong ', e, req);
+      logger.error('uploadCourses Failed', { error: e });
+      return ;
+    }
+    fs.copyFile(file.path, `assets/sounds/${file.name}`, fs.constants.COPYFILE_FICLONE, (err) => {
+      if (!err) {
+        responder.send200Response(res);
+      } else {
+        responder.sendErrorResponse(res, 500, 'Error in uploadGong : problem copying file', err, req);
+        logger.error('uploadGong Failed : problem copying file', { error: err });
+      }
+    });
+  });
+
+  form.on('error', (err) => {
+    const newErr = new Error('Failed on processing the file');
+    responder.sendErrorResponse(res, 500, 'Error in uploadGong ', newErr);
+    logger.error('uploadGong Failed', { error: err });
+  });
+
+  form.on('end', () => {
+    logger.info('uploadGong : Upload ended');
+  });
+
+  form.parse(req);
+}
+
 function languagesUpdate(req, res, next) {
   const retLanguagesUpdatePromise = persistManager.updateLanguages(req.body);
 
@@ -175,6 +209,7 @@ module.exports = {
   removeGong,
   scheduleCourse,
   uploadCourses,
+  uploadGong,
   languagesUpdate,
   removeScheduledCourse,
 };
