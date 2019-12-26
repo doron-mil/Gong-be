@@ -1,5 +1,5 @@
 {
-  "lastUpdatedTime": 1576450150000,
+  "lastUpdatedTime": 1577391373558,
   "areas": [
     {
       "id": 0,
@@ -71,12 +71,12 @@
     }
   ],
   "gongTypes": [
-     {
+    {
       "id": 1,
       "name": "long",
       "pathName": "gong-long.wav"
     }
-   ],
+  ],
   "courses": [
     {
       "course_name": "10_day_course",

@@ -116,7 +116,8 @@
     },
     "buttons": {
       "play": "Play",
-      "schedulePlay": "Schedule"
+      "schedulePlay": "Schedule",
+      "repeat": "Repeat"
     },
     "messages": {
       "areaIsEmpty": "Must choose at least one area"

@@ -47,7 +47,9 @@
       "gongPlayedSuccessfully": "גונג נוגן בהצלחה",
       "gongPlayedFailed": "נכשלה בקשה לניגון גונג",
       "coursesUploadedSuccessfully": "ייבוא קורסים התסיים בהצלחה",
-      "coursesUploadFailed": "ייבוא קורסים נכשל"
+      "coursesUploadFailed": "ייבוא קורסים נכשל",
+      "gongUploadedSuccessfully": "",
+      "gongUploadFailed": ""
     },
     "header": {
       "information": "כותרת מתורגמת",
@@ -114,7 +116,8 @@
     },
     "buttons": {
       "play": "נגן",
-      "schedulePlay": "תזמן"
+      "schedulePlay": "תזמן",
+      "repeat": "חזרות"
     },
     "messages": {
       "areaIsEmpty": "יש לבחור לפחות איזור אחד"
