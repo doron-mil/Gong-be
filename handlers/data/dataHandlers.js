@@ -6,9 +6,13 @@ const gongsManager = require('../../lib/gongsManager');
 const persistManager = require('../../lib/persist/persistManager');
 const logger = require('../../lib//logger');
 
+const NO_OF_PORTS = process.env.NO_OF_PORTS ? Number.parseInt(process.env.NO_OF_PORTS, 10) : 4;
+
 function getStaticData(req, res, next) {
   let rawData = fs.readFileSync('assets/data/staticData.json');
   const staticData = JSON.parse(rawData.toString());
+
+  staticData.areas = staticData.areas.filter((value, index) => index <= NO_OF_PORTS);
 
   fs.readdir('assets/i18n', (error, files) => {
     if (error) {
@@ -151,7 +155,7 @@ function uploadGong(req, res, next) {
     } catch (e) {
       responder.sendErrorResponse(res, 500, 'Error in uploadGong ', e, req);
       logger.error('uploadCourses Failed', { error: e });
-      return ;
+      return;
     }
     fs.copyFile(file.path, `assets/sounds/${file.name}`, fs.constants.COPYFILE_FICLONE, (err) => {
       if (!err) {

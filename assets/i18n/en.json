@@ -3,11 +3,7 @@
   "general": {
     "typesValues": {
       "gongType": {
-        "long": "Long",
-        "short": "short",
-        "single": "Single",
-        "chanting": "Chanting",
-        "bells": "Bells"
+        "long": "Long"
       },
       "areas": {
         "all": "All",
@@ -18,16 +14,19 @@
         "area5": "area 5",
         "area6": "area 6",
         "area7": "area 7",
-        "area8": "area 8"
+        "area8": "area 8",
+        "area9": "area 9",
+        "area10": "area 10",
+        "area11": "area 11",
+        "area12": "area 12",
+        "area13": "area 13",
+        "area14": "area 14",
+        "area15": "area 15",
+        "area16": "area 16"
       },
       "courses": {
         "10_day_course": "10 Days",
-        "satipattana": "Satipattana",
-        "sati_short": "Sati_test",
-        "test": "test",
-        "test2": "test2",
-        "test4": "test4",
-        "test3": "test3"
+        "satipattana": "Satipattana"
       }
     },
     "tableHeaders": {
