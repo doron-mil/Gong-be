@@ -38,7 +38,8 @@
         "time": "Time",
         "gongType": "Type",
         "area": "Areas",
-        "volume": "Volume"
+        "volume": "Volume",
+        "repeat": "Repeat"
       }
     },
     "messages": {
@@ -241,7 +242,10 @@
       }
     },
     "languages": {
-      "label": "Languages"
+      "label": "Languages",
+      "buttons": {
+        "save": "Save"
+      }
     }
   }
 }

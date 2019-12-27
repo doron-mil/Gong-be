@@ -34,11 +34,12 @@
         "day": "יום",
         "date": "תאריך",
         "isOn": "פעיל",
-        "delete": "",
+        "delete": "מחק",
         "time": "זמן הצלצול",
         "gongType": "סוג הצלצול",
         "area": "מקום",
-        "volume": "עוצמה"
+        "volume": "עוצמה",
+        "repeat": "חזרות"
       }
     },
     "messages": {
@@ -237,11 +238,14 @@
         }
       },
       "buttons": {
-        "save": ""
+        "save": "שמור"
       }
     },
     "languages": {
-      "label": ""
+      "label": "שפות",
+      "buttons": {
+        "save": "שמור"
+      }
     }
   }
 }
