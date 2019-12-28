@@ -19,7 +19,7 @@ module.exports = class CourseSchedule {
   isExceptionExists(/* ExceptionGong */aExceptionGong) {
     let isExist = false;
     if (this.exceptions) {
-      isExist = this.exceptions.some((exceptionItem) => exceptionItem.day_time === aExceptionGong.day_time
+      isExist = this.exceptions.some((exceptionItem) => exceptionItem.day_number === aExceptionGong.day_number
         && exceptionItem.time === aExceptionGong.time);
     }
     return isExist;
