@@ -44,24 +44,22 @@
     },
     "messages": {
       "couldNotDeleteScheduledGong": " %s לא הצליחה מחיקת הגונג שמתוארך ל:",
-      "couldNotScheduleObsoleteGong": "יש לבחור זמן עתידי",
+      "couldNotScheduleObsoleteGong": "גונג נמצא בשימוש ע\"י אחת מתבניות הקורס ולא ניתן למחיקה",
       "gongPlayedSuccessfully": "גונג נוגן בהצלחה",
       "gongPlayedFailed": "נכשלה בקשה לניגון גונג",
       "coursesUploadedSuccessfully": "ייבוא קורסים התסיים בהצלחה",
       "coursesUploadFailed": "ייבוא קורסים נכשל",
-      "gongUploadedSuccessfully": "",
-      "gongUploadFailed": ""
-    },
-    "header": {
-      "information": "כותרת מתורגמת",
-      "details": "כותרת שניה"
+      "gongUploadedSuccessfully": "גונג נטען בהצלחה",
+      "gongUploadFailed": "טעינת גונג נכשלה",
+      "lastGongIsInUse": "גונג נמצא בשימוש ע\"י אחת מתבניות הקורס ולכן לא ניתן למחיקה",
+      "lastGongNotFound": "לא נמצא קובץ גונג אחרון"
     }
   },
   "main": {
     "labels": {
       "currentTime": "זמן נוכחי",
       "nextGong": "הגונג הבא",
-      "nextGongNotAvailable": ""
+      "nextGongNotAvailable": "N/A"
     },
     "tooltips": {
       "manual": {
@@ -95,12 +93,37 @@
           },
           "import": {
             "main": "יבא",
-            "course": "גונג",
-            "gong": ""
+            "course": "תבנית קורס",
+            "gong": "גונג"
+          },
+          "update": {
+            "main": "עדכון",
+            "course": "קורס",
+            "gong": "גונג"
+          },
+          "delete": {
+            "main": "מחק",
+            "course": "קורס",
+            "lastGong": "גונג אחרון"
           }
         }
       },
       "logout": "יציאה"
+    },
+    "header": {
+      "confirm": {
+        "delete": {
+          "title": "ווידוי מחיקה",
+          "text": {
+            "gong": "האם יש אישור למחוק גונג",
+            "course": "האם יש אישור למחוק קורס"
+          },
+          "buttons": {
+            "confirm": "אשר",
+            "cancel": "בטל"
+          }
+        }
+      }
     }
   },
   "manualActivation": {
@@ -130,7 +153,7 @@
         "name": "שם קורס",
         "date": "תאריך תחילה",
         "daysCount": "מס ימים",
-        "startFromDay": ""
+        "startFromDay": "התחל מיום"
       }
     },
     "selectedCourseTable": {
@@ -150,7 +173,7 @@
       "nextAutoGong": "הגונג הבא"
     },
     "labels": {
-      "displayDate": ""
+      "displayDate": "הצג תאריך"
     },
     "alerts": {
       "confirmRemoveSchedule": {
@@ -187,14 +210,28 @@
         "cancel": "בטל"
       }
     },
-    "selectCourses": {
+    "selectTopics": {
       "header": {
-        "download": "בחר קורסים להורדה",
-        "delete": "בחר קורסים למחיקה"
+        "download": "בחר {{topic}} להורדה",
+        "delete": "בחר {{topic}} למחיקה",
+        "update": "בחר {{topic}} לעדכון"
       },
       "buttons": {
-        "submit": "בצע",
-        "cancel": "בטל"
+        "download": "הורד",
+        "cancel": "בטל",
+        "update": "עדכן",
+        "delete": "מחק"
+      },
+      "topics": {
+        "course": "קורס",
+        "gong": "גונג",
+        "many": "ים"
+      },
+      "tooltips": {
+        "inUse": {
+          "course": "הקורס בשימוש באחד מהקורסים המתוזמנים",
+          "gong": "הגונג בשימוש באחד מתבניות הקורס"
+        }
       }
     }
   },
@@ -229,11 +266,11 @@
       },
       "confirm": {
         "unsaved": {
-          "title": "",
-          "message": "",
+          "title": "מידע לא נשמר",
+          "message": "יש מידע שלא נשמר.<BR>האם להמשיך ולוותר על השינויים?",
           "buttons": {
-            "cancel": "",
-            "confirm": ""
+            "cancel": "בטל",
+            "confirm": "מחק"
           }
         }
       },

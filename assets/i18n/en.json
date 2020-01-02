@@ -50,11 +50,9 @@
       "coursesUploadedSuccessfully": "Courses Uploaded Successfully",
       "coursesUploadFailed": "Courses Upload Request failed",
       "gongUploadedSuccessfully": "Gong Uploaded Successfully",
-      "gongUploadFailed": "Gong Upload Request failed"
-    },
-    "header": {
-      "information": "",
-      "details": ""
+      "gongUploadFailed": "Gong Upload Request failed",
+      "lastGongIsInUse": "gong is in use by one of the courses templates and cannot be deleted",
+      "lastGongNotFound": "Last Gong was not found"
     }
   },
   "main": {
@@ -97,10 +95,35 @@
             "main": "Import",
             "course": "Course Template",
             "gong": "Gong"
+          },
+          "update": {
+            "main": "Update",
+            "course": "Course",
+            "gong": "Gong"
+          },
+          "delete": {
+            "main": "Delete",
+            "course": "Course",
+            "lastGong": "Last Gong"
           }
         }
       },
       "logout": "Logout"
+    },
+    "header": {
+      "confirm": {
+        "delete": {
+          "title": "Confirm Delete",
+          "text": {
+            "gong": "Are you sure you want to delete gong",
+            "course": "Are you sure you want to delete course"
+          },
+          "buttons": {
+            "confirm": "Confirm",
+            "cancel": "Cancel"
+          }
+        }
+      }
     }
   },
   "manualActivation": {
@@ -187,14 +210,28 @@
         "cancel": "Cancel"
       }
     },
-    "selectCourses": {
+    "selectTopics": {
       "header": {
-        "download": "Select Courses for Download",
-        "delete": "Select Courses for Deletion"
+        "download": "Select {{topic}} for Download",
+        "delete": "Select {{topic}} for Delete",
+        "update": "Select {{topic}} for Update"
       },
       "buttons": {
-        "submit": "Submit",
-        "cancel": "Cancel"
+        "download": "Download",
+        "cancel": "Cancel",
+        "update": "Update",
+        "delete": "Delete"
+      },
+      "topics": {
+        "course": "Course",
+        "gong": "Gong",
+        "many": "s"
+      },
+      "tooltips": {
+        "inUse": {
+          "course": "The course is in use in one of the courses schedules",
+          "gong": "The gong is in use in one of the courses templates"
+        }
       }
     }
   },
