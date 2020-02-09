@@ -1,3 +1,4 @@
+0
 1. disable sleep
 https://www.dell.com/support/article/il/en/ilbsdt1/how12691/how-to-disable-sleep-and-configure-lid-power-settings-for-ubuntu-or-red-hat-enterprise-linux-7?lang=en
 
