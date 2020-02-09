@@ -43,7 +43,7 @@ set +v
 echo -e "----------------------------------------------------------------------------------------------------"
 
 set -v
-cp -rf /home/dhamma/projects/Gong-be/dev_ops/* /home/dhamma/projects/gong_dev_ops/
+cp -rf /home/dhamma/projects/Gong-be/dev_ops /home/dhamma/projects/gong_dev_ops/
 
 set +v
 echo -e "----------------------------------------------------------------------------------------------------"
