@@ -31,4 +31,5 @@ sudo NO_OF_PORTS=8 NODE_ENV=production node ./gong_server/server
 6. adding log archive mechanism using logrotate
 adding logrotate file in /etc/logrotate.d/gong
 
+7.
 
