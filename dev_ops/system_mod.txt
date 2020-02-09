@@ -32,4 +32,5 @@ sudo NO_OF_PORTS=8 NODE_ENV=production node ./gong_server/server
 adding logrotate file in /etc/logrotate.d/gong
 
 7.
+8.
 
