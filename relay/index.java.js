@@ -16,7 +16,7 @@ const RunPromiseRoutineInQueue = require('../lib/utils/runPromiseRoutineInQueue'
 
  -- reference is in ---
  http://denkovi.com/denkovi-relay-command-line-tool
- // The second part can be rewritten to be passed as a parameter .
+ // The second part can be rewritten to be passed as a parameter.
  */
 let JAVA = '/usr/bin/java -jar ';
 if (os.platform() === 'win32') {
