@@ -9,6 +9,7 @@ new_log_file=/home/dhamma/projects/gong_dev_ops/dev_ops_logs/dev_ops_log_$(date 
 USER=$(whoami)
 mkdir -p /home/${USER}/projects/
 mkdir -p /home/${USER}/projects/gong_dev_ops
+mkdir -p /home/${USER}/projects/gong_server
 cd /home/${USER}/projects/
 
 git clone https://github.com/doron-mil/Gong-be.git
