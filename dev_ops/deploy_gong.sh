@@ -21,5 +21,5 @@ cp -f /home/${USER}/projects/gong_dev_ops/dev_ops/refresh_gong_server.sh /home/$
 
 export HISTIGNORE='*sudo -S*'
 sudo -S /home/${USER}/projects/gong_dev_ops/dev_ops/refresh_gong_server_be.sh <<< $1
-sudo -S /home/${USER}/projects/gong_dev_ops/dev_ops/refresh_gong_server_fe.sh <<< $1
+# sudo -S /home/${USER}/projects/gong_dev_ops/dev_ops/refresh_gong_server_fe.sh <<< $1
 
