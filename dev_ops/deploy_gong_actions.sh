@@ -10,9 +10,9 @@ IS_DOCKER=$3
 set -v
 
 # Essential dirs
-mkdir -p "/home/${USER}/projects/gong_dev_ops/dev_ops_logs"
 mkdir -p "/home/${USER}/projects/"
 mkdir -p "/home/${USER}/projects/gong_dev_ops"
+mkdir -p "/home/${USER}/projects/gong_dev_ops/dev_ops_logs"
 mkdir -p "/home/${USER}/projects/gong_server"
 cd "/home/${USER}/projects/"
 
