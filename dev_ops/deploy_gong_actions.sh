@@ -7,6 +7,8 @@ USER=$1
 USER_PASS=$2
 IS_DOCKER=$3
 
+set -v
+
 # Essential dirs
 mkdir -p "/home/${USER}/projects/gong_dev_ops/dev_ops_logs"
 mkdir -p "/home/${USER}/projects/"
