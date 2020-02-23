@@ -23,8 +23,10 @@ sudo NO_OF_PORTS=8 NODE_ENV=production node ./gong_server/server
     b. sudo /home/dhamma/projects/gong_dev_ops/dev_ops/create_pm2_gong_server_process.sh
             cd /home/dhamma/projects/gong_server
             pm2 start /home/dhamma/projects/gong_dev_ops/dev_ops/gong_server_pm2_config.json
-    c. pm2 restart -u root --hp /home/dhamma/projects/gong_server/     (Doing sudo as advicd by PM2)
-    d. pm save
+    c. pm2 startup -u root --hp /home/dhamma/projects/gong_server/     (Doing sudo as advicd by PM2)
+        sudo env PATH=$PATH:/usr/bin pm2 startup upstart -u root --hp /home/dhamma
+
+    d. pm2 save
 
 
 

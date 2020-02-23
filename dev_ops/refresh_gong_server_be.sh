@@ -1,8 +1,4 @@
 #!/bin/bash
-#if [[ $EUID -ne 0 ]]; then
-#   echo "This script must be run as root"
-#   exit 1
-#fi
 
 set +v
 
@@ -13,7 +9,9 @@ echo
 echo
 
 set -v
-cd /home/dhamma/projects/Gong-be
+USER=$1
+
+cd "/home/${USER}/projects/Gong-be"
 rm -rf node_modules
 
 set +v

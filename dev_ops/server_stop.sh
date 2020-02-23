@@ -1,8 +1,8 @@
 #!/bin/bash
-if [[ $EUID -ne 0 ]]; then
-   echo "This script must be run as root"
-   exit 1
-fi
+
+USER=$1
+USER_PASS=$2
+IS_DOCKER=$3
 
 set +v
 
@@ -13,25 +13,30 @@ echo
 echo
 
 set -v
-pm2 stop gong_server
+export HISTIGNORE='*sudo -S*'
+if [ "${IS_DOCKER}" != "true" ]; then
+  sudo -S pm2 stop gong_server <<< "${USER_PASS}"
+else
+  sudo -S pm2-runtime stop gong_server <<< "${USER_PASS}"
+fi
 
 set +v
 echo -e "----------------------------------------------------------------------------------------------------"
 
 set -v
-logrotate /home/dhamma/projects/gong_dev_ops/dev_ops/gong_logrotate  -fv -s /home/dhamma/projects/gong_dev_ops/t_logrotate_state
+logrotate "/home/${USER}/projects/gong_dev_ops/dev_ops/gong_logrotate"  -fv -s "/home/${USER}/projects/gong_dev_ops/t_logrotate_state"
 
 set +v
 echo -e "----------------------------------------------------------------------------------------------------"
 
 set -v
-/home/dhamma/projects/gong_dev_ops/dev_ops/backup_files.sh
+/home/"${USER}"/projects/gong_dev_ops/dev_ops/backup_files.sh "${USER}"
 
 set +v
 echo -e "----------------------------------------------------------------------------------------------------"
 
 set -v
-rm -rf /home/dhamma/projects/gong_server/*
+rm -rf "/home/${USER}/projects/gong_server/*"
 
 set +v
 echo -e "----------------------------------------------------------------------------------------------------"

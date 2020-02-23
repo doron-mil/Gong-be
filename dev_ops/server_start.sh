@@ -1,8 +1,8 @@
 #!/bin/bash
-if [[ $EUID -ne 0 ]]; then
-   echo "This script must be run as root"
-   exit 1
-fi
+
+USER=$1
+USER_PASS=$2
+IS_DOCKER=$3
 
 set +v
 echo -e "╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦"
@@ -15,13 +15,19 @@ echo
 echo -e "----------------------------------------------------------------------------------------------------"
 
 set -v
-/home/dhamma/projects/gong_dev_ops/dev_ops/restore_files.sh
+/home/"${USER}"/projects/gong_dev_ops/dev_ops/restore_files.sh "${USER}"
 
 set +v
 echo -e "----------------------------------------------------------------------------------------------------"
 
+export HISTIGNORE='*sudo -S*'
+
 set -v
-pm2 start gong_server
+if [ "${IS_DOCKER}" != "true" ]; then
+  sudo -S pm2 start gong_server <<< "${USER_PASS}"
+else
+  sudo -S pm2-runtime start gong_server <<< "${USER_PASS}"
+fi
 
 set +v
 echo -e "----------------------------------------------------------------------------------------------------"

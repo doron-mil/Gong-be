@@ -1,25 +1,9 @@
 #!/bin/bash
 
-#echo "$#"
-#echo "$1"
+USER=$1
+USER_PASS=$2
+IS_DOCKER=$3
 
-mkdir -p /home/dhamma/projects/gong_dev_ops/dev_ops_logs
-new_log_file=/home/dhamma/projects/gong_dev_ops/dev_ops_logs/dev_ops_log_$(date +"%Y_%m_%d_%H_%M_%S")_dev.log
+log_file=/home/${USER}/projects/gong_dev_ops/dev_ops_logs/0_initial_deployment_$(date +"%Y_%m_%d_%H_%M_%S").log
 
-USER=$(whoami)
-mkdir -p /home/${USER}/projects/
-mkdir -p /home/${USER}/projects/gong_dev_ops
-mkdir -p /home/${USER}/projects/gong_server
-cd /home/${USER}/projects/
-
-git clone https://github.com/doron-mil/Gong-be.git
-git clone https://github.com/doron-mil/Gong_fe.git
-
-cp -rf /home/${USER}/projects/Gong-be/dev_ops /home/${USER}/projects/gong_dev_ops/
-cp -f /home/${USER}/projects/gong_dev_ops/dev_ops/refresh_dev_ops.sh /home/${USER}/projects/gong_dev_ops/
-cp -f /home/${USER}/projects/gong_dev_ops/dev_ops/refresh_gong_server.sh /home/${USER}/projects/gong_dev_ops/
-
-export HISTIGNORE='*sudo -S*'
-/home/${USER}/projects/gong_dev_ops/dev_ops/refresh_gong_server_be.sh
-# sudo -S /home/${USER}/projects/gong_dev_ops/dev_ops/refresh_gong_server_fe.sh <<< $1
-
+/home/"${USER}"/projects/gong_dev_ops/dev_ops/deploy_gong_actions.sh "${USER}" "${USER_PASS}" "${IS_DOCKER}" 2>&1 | tee -a "${log_file}"
