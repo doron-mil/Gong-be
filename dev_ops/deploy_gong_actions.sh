@@ -37,4 +37,4 @@ sudo -S sed -i 's/dhamma/${USER}/g' /etc/logrotate.d/gong <<< "${USER_PASS}"
 
 # pm2 shell to start the app
 sudo -S sed -i 's/dhamma/${USER}/g' "/home/${USER}/projects/gong_dev_ops/dev_ops/gong_server_pm2_config.json" <<< "${USER_PASS}"
-/home/"${USER}"/projects/gong_dev_ops/dev_ops/create_pm2_gong_server_process.sh "${USER}" "${USER_PASS}" "${IS_DOCKER}"
+/home/"${USER}"/projects/gong_dev_ops/dev_ops/create_pm3_gong_server_process.sh "${USER}" "${USER_PASS}" "${IS_DOCKER}"
