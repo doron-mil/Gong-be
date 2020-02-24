@@ -1,7 +1,6 @@
 #!/bin/bash
 
-#echo "$#"
-#echo "$1"
+set -x
 
 USER=$1
 USER_PASS=$2
@@ -33,8 +32,8 @@ cp -f "/home/${USER}/projects/gong_dev_ops/dev_ops/refresh_gong_server.sh" "/hom
 
 # logrotate
 sudo -S cp -f "/home/${USER}/projects/gong_dev_ops/dev_ops/gong_logrotate" /etc/logrotate.d/gong <<< "${USER_PASS}"
-sudo -S sed -i 's/dhamma/${USER}/g' /etc/logrotate.d/gong <<< "${USER_PASS}"
+sudo -S sed -i "s/dhamma/${USER}/g" /etc/logrotate.d/gong <<< "${USER_PASS}"
 
 # pm2 shell to start the app
-sudo -S sed -i 's/dhamma/${USER}/g' "/home/${USER}/projects/gong_dev_ops/dev_ops/gong_server_pm2_config.json" <<< "${USER_PASS}"
-/home/"${USER}"/projects/gong_dev_ops/dev_ops/create_pm3_gong_server_process.sh "${USER}" "${USER_PASS}" "${IS_DOCKER}"
+sudo -S sed -i "s/dhamma/${USER}/g" "/home/${USER}/projects/gong_dev_ops/dev_ops/gong_server_pm2_config.json" <<< "${USER_PASS}"
+/home/"${USER}"/projects/gong_dev_ops/dev_ops/create_pm2_gong_server_process.sh "${USER}" "${USER_PASS}" "${IS_DOCKER}"
