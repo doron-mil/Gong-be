@@ -212,6 +212,16 @@ function removeScheduledCourse(req, res, next) {
     });
 }
 
+async function addUser(req, res, next) {
+  try {
+    await persistManager.addUser(req.body);
+    responder.send200Response(res);
+  } catch (e) {
+    responder.sendErrorResponse(res, 500, 'Error in addUser ', e, req);
+    logger.error('addUser Failed', { error: e });
+  }
+}
+
 module.exports = {
   getStaticData,
   getCourseByName,
@@ -226,4 +236,5 @@ module.exports = {
   uploadGong,
   languagesUpdate,
   removeScheduledCourse,
+  addUser,
 };

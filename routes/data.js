@@ -30,6 +30,8 @@ router.post('/uploadGong', dataHandlers.uploadGong);
 
 router.post('/languagesUpdate', dataHandlers.languagesUpdate);
 
+router.post('/user/add', dataHandlers.addUser);
+
 
 router.delete('/coursesSchedule/remove', dataHandlers.removeScheduledCourse);
 
