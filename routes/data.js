@@ -32,6 +32,8 @@ router.post('/languagesUpdate', dataHandlers.languagesUpdate);
 
 router.post('/user/add', dataHandlers.addUser);
 
+router.post('/user/remove', dataHandlers.removeUser);
+
 
 router.delete('/coursesSchedule/remove', dataHandlers.removeScheduledCourse);
 

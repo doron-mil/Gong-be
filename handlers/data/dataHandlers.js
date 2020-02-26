@@ -222,6 +222,17 @@ async function addUser(req, res, next) {
   }
 }
 
+async function removeUser(req, res, next) {
+  try {
+      console.log('11111-2222',req.body);
+    await persistManager.removeUser(req.body.userId);
+    responder.send200Response(res);
+  } catch (e) {
+    responder.sendErrorResponse(res, 500, 'Error in removeUser ', e, req);
+    logger.error('removeUser Failed', { error: e });
+  }
+}
+
 module.exports = {
   getStaticData,
   getCourseByName,
@@ -237,4 +248,5 @@ module.exports = {
   languagesUpdate,
   removeScheduledCourse,
   addUser,
+  removeUser,
 };
