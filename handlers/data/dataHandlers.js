@@ -1,9 +1,11 @@
 const fs = require('fs');
 const { IncomingForm } = require('formidable');
+const jwt = require('jsonwebtoken');
 
 const responder = require('../../lib/responder');
 const gongsManager = require('../../lib/gongsManager');
 const persistManager = require('../../lib/persist/persistManager');
+const utilsManager = require('../../lib/utilsManager');
 const logger = require('../../lib//logger');
 
 const NO_OF_PORTS = process.env.NO_OF_PORTS ? Number.parseInt(process.env.NO_OF_PORTS, 10) : 4;
@@ -58,6 +60,13 @@ function getCourseByName(req, res, next) {
 const getManualGongsList = (req, res, next) => {
   const retList = gongsManager.getManualGongsList();
   responder.send200Response(res, retList);
+};
+
+const getUsersList = (req, res, next) => {
+  const authorization = req.headers.authorization.split(' ')[1];
+  const { sub } = jwt.decode(authorization);
+  const retUsersList = utilsManager.getUsers(sub);
+  responder.send200Response(res, retUsersList);
 };
 
 function addManualGong(req, res, next) {
@@ -208,6 +217,7 @@ module.exports = {
   getCourseByName,
   getCoursesSchedule,
   getManualGongsList,
+  getUsersList,
   addManualGong,
   toggleGong,
   removeGong,

@@ -1,0 +1,16 @@
+[
+  {
+    "id": "dev",
+    "role": "dev",
+    "creation-date": 1582660552754,
+    "update-date": 1582660552754,
+    "encodedPasswd": "$2b$10$b8CZ//81swBg3S78um/IZu6lHu6C2KQxOCgnZXRsy/E5fI.pxFYt2"
+  },
+  {
+    "id": "admin",
+    "role": "admin",
+    "creation-date": 1582660552754,
+    "update-date": 1582660552754,
+    "encodedPasswd": "$2b$10$h0AsIntabWZMLBnAfX.uI.bHilU3VHweXCcQMNsMquY.ZXQScB.Ly"
+  }
+]

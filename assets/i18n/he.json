@@ -283,6 +283,26 @@
       "buttons": {
         "save": "שמור"
       }
+    },
+    "users": {
+      "label": "משתמשים",
+      "buttons": {
+        "addUser": "הוסף משתמש",
+        "updateUser": "עדכן משתמש",
+        "deleteUser": "מחק משתמש",
+        "changeUserPass": "שנה סיסמא"
+      },
+      "usersTable": {
+        "headers": {
+          "id": "ת.עדכון",
+          "role": "קבוצה",
+          "creationDate": "ת.יצירה",
+          "updateDate": "ת.עדכון"
+        }
+      }
+    },
+    "permissions": {
+      "label": "הרשאות"
     }
   }
 }

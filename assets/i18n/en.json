@@ -283,6 +283,26 @@
       "buttons": {
         "save": "Save"
       }
+    },
+    "users": {
+      "label": "Users",
+      "buttons": {
+        "addUser": "Add User",
+        "updateUser": "Update User",
+        "deleteUser": "Delete User",
+        "changeUserPass": "Change Pass"
+      },
+      "usersTable": {
+        "headers": {
+          "id": "Id",
+          "role": "Role",
+          "creationDate": "creationDate",
+          "updateDate": "updateDate"
+        }
+      }
+    },
+    "permissions": {
+      "label": "Permissions"
     }
   }
 }

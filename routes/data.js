@@ -13,6 +13,8 @@ router.get('/course/:id', dataHandlers.getCourseByName);
 
 router.get('/gongs/list', dataHandlers.getManualGongsList);
 
+router.get('/users/list', dataHandlers.getUsersList);
+
 
 router.post('/gong/add', dataHandlers.addManualGong);
 
