@@ -252,6 +252,16 @@ async function resetUserPassword(req, res, next) {
   }
 }
 
+async function updatePermissions(req, res, next) {
+  try {
+    await persistManager.updatePermissions(req.body);
+    responder.send200Response(res);
+  } catch (e) {
+    responder.sendErrorResponse(res, 500, 'Error in updatePermissions ', e, req);
+    logger.error('updatePermissions Failed', { error: e });
+  }
+}
+
 module.exports = {
   getStaticData,
   getCourseByName,
@@ -270,4 +280,5 @@ module.exports = {
   removeUser,
   updateUser,
   resetUserPassword,
+  updatePermissions,
 };
