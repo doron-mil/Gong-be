@@ -345,7 +345,19 @@
       }
     },
     "permissions": {
-      "label": "הרשאות"
+      "label": "הרשאות",
+      "permissionsTable": {
+        "headers": {
+          "action": "קבוצה",
+          "dw": "DW",
+          "teacher": "Teacher",
+          "admin": "Admin",
+          "all": " כולם"
+        }
+      },
+      "buttons": {
+        "save": ""
+      }
     }
   }
 }
