@@ -1,5 +1,5 @@
 {
-  "lastUpdatedTime": 1582830656800,
+  "lastUpdatedTime": 1582839813800,
   "areas": [
     {
       "id": 0,
@@ -64,44 +64,44 @@
   "permissions": [
     {
       "action": "view_manual",
-      "roles": ["dev", "admin", "teacher", "dw"],
-      "order" : 1
+      "roles": ["super-user", "admin"],
+      "order": 1
     }, {
       "action": "play_manual",
-      "roles": ["dev", "admin", "teacher", "dw"],
-      "order" : 2
+      "roles": ["user", "super-user", "admin"],
+      "order": 2
     }, {
       "action": "schedule_manual",
-      "roles": ["dev", "admin", "teacher", "dw"],
-      "order" : 3
+      "roles": ["user", "super-user", "admin"],
+      "order": 3
     }, {
       "action": "delete_manual",
-      "roles": ["dev", "admin", "teacher", "dw"],
-      "order" : 4
+      "roles": ["user", "super-user", "admin"],
+      "order": 4
     }, {
       "action": "view_automatic",
-      "roles": ["dev", "admin", "teacher", "dw"],
-      "order" : 5
+      "roles": ["user", "super-user", "admin"],
+      "order": 5
     }, {
       "action": "schedule_course",
-      "roles": ["dev", "admin", "teacher"],
-      "order" : 6
+      "roles": ["super-user", "admin"],
+      "order": 6
     }, {
       "action": "control_active_gong_on_scheduled_course",
-      "roles": ["dev", "admin", "teacher"],
-      "order" : 7
+      "roles": ["super-user", "admin"],
+      "order": 7
     }, {
       "action": "remove_scheduled_course",
-      "roles": ["dev", "admin", "teacher"],
-      "order" : 8
+      "roles": ["super-user", "admin"],
+      "order": 8
     }, {
       "action": "view_config",
-      "roles": ["dev", "admin"],
-      "order" : 9
+      "roles": ["admin"],
+      "order": 9
     }, {
       "action": "view_export_import",
-      "roles": ["dev", "admin"],
-      "order" : 10
+      "roles": ["admin"],
+      "order": 10
     }
   ],
   "courses": [

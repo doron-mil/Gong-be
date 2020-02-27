@@ -349,10 +349,10 @@
       "permissionsTable": {
         "headers": {
           "action": "קבוצה",
-          "dw": "DW",
-          "teacher": "Teacher",
+          "user": "User",
+          "super-user": "Super User",
           "admin": "Admin",
-          "all": " כולם"
+          "all": "כולם"
         }
       },
       "buttons": {

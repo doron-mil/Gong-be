@@ -349,8 +349,8 @@
       "permissionsTable": {
         "headers": {
           "action": "Action",
-          "dw": "DW",
-          "teacher": "Teacher",
+          "user": "User",
+          "super-user": "Super User",
           "admin": "Admin",
           "all": "All"
         }
