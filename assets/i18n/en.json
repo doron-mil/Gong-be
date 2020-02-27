@@ -52,7 +52,8 @@
       "gongUploadedSuccessfully": "Gong Uploaded Successfully",
       "gongUploadFailed": "Gong Upload Request failed",
       "lastGongIsInUse": "gong is in use by one of the courses templates and cannot be deleted",
-      "lastGongNotFound": "Last Gong was not found"
+      "lastGongNotFound": "Last Gong was not found",
+      "resetUserPasswordSuccessful": "Reseting User Password was Successful"
     }
   },
   "main": {
@@ -328,8 +329,8 @@
         "headers": {
           "id": "Id",
           "role": "Role",
-          "creationDate": "creationDate",
-          "updateDate": "updateDate"
+          "creationDate": "Creation Date",
+          "updateDate": "Update Date"
         }
       },
       "alerts": {

@@ -34,6 +34,10 @@ router.post('/user/add', dataHandlers.addUser);
 
 router.post('/user/remove', dataHandlers.removeUser);
 
+router.post('/user/update', dataHandlers.updateUser);
+
+router.post('/user/resetPassword', dataHandlers.resetUserPassword);
+
 
 router.delete('/coursesSchedule/remove', dataHandlers.removeScheduledCourse);
 

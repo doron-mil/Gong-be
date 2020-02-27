@@ -224,12 +224,31 @@ async function addUser(req, res, next) {
 
 async function removeUser(req, res, next) {
   try {
-      console.log('11111-2222',req.body);
     await persistManager.removeUser(req.body.userId);
     responder.send200Response(res);
   } catch (e) {
     responder.sendErrorResponse(res, 500, 'Error in removeUser ', e, req);
     logger.error('removeUser Failed', { error: e });
+  }
+}
+
+async function updateUser(req, res, next) {
+  try {
+    await persistManager.updateUser(req.body);
+    responder.send200Response(res);
+  } catch (e) {
+    responder.sendErrorResponse(res, 500, 'Error in updateUser ', e, req);
+    logger.error('updateUser Failed', { error: e });
+  }
+}
+
+async function resetUserPassword(req, res, next) {
+  try {
+    await persistManager.resetUserPassword(req.body);
+    responder.send200Response(res);
+  } catch (e) {
+    responder.sendErrorResponse(res, 500, 'Error in resetUserPassword ', e, req);
+    logger.error('resetUserPassword Failed', { error: e });
   }
 }
 
@@ -249,4 +268,6 @@ module.exports = {
   removeScheduledCourse,
   addUser,
   removeUser,
+  updateUser,
+  resetUserPassword,
 };
