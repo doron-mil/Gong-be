@@ -1,5 +1,5 @@
 {
-  "lastUpdatedTime": 1582839813800,
+  "lastUpdatedTime": 1582843615817,
   "areas": [
     {
       "id": 0,
@@ -64,7 +64,7 @@
   "permissions": [
     {
       "action": "view_manual",
-      "roles": ["super-user", "admin"],
+      "roles": ["user", "super-user", "admin"],
       "order": 1
     }, {
       "action": "play_manual",
