@@ -24,7 +24,9 @@ router.post('/gong/remove', dataHandlers.removeGong);
 
 router.post('/coursesSchedule/add', dataHandlers.scheduleCourse);
 
-router.post('/uploadCourses', dataHandlers.uploadCourses);
+router.post('/course/uploadCourses', dataHandlers.uploadCourses);
+
+router.post('/course/remove', dataHandlers.removeCourse);
 
 router.post('/gong/upload', dataHandlers.uploadGong);
 

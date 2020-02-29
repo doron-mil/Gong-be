@@ -155,12 +155,22 @@ function uploadCourses(req, res, next) {
   form.parse(req);
 }
 
+async function removeCourse(req, res, next) {
+  try {
+    await persistManager.deleteCoursesTemplates(req.body.courseName);
+    responder.send200Response(res);
+  } catch (e) {
+    responder.sendErrorResponse(res, 500, 'Error in uploadCourses ', e, req);
+    logger.error('uploadCourses Failed', { error: e });
+  }
+}
+
 function uploadGong(req, res, next) {
   const form = new IncomingForm();
 
   form.on('file', async (field, file) => {
     try {
-      await persistManager.addGong(file.name,file.path);
+      await persistManager.addGong(file.name, file.path);
       responder.send200Response(res);
     } catch (e) {
       responder.sendErrorResponse(res, 500, 'Error in uploadGong ', e, req);
@@ -275,6 +285,7 @@ module.exports = {
   removeGong,
   scheduleCourse,
   uploadCourses,
+  removeCourse,
   uploadGong,
   deleteGongFile,
   languagesUpdate,

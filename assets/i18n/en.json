@@ -54,7 +54,8 @@
       "lastGongIsInUse": "gong is in use by one of the courses templates and cannot be deleted",
       "lastGongNotFound": "Last Gong was not found",
       "resetUserPasswordSuccessful": "Reseting User Password was Successful",
-      "gongDeletedSuccessful": "Gong was Deleted Successfully"
+      "gongDeletedSuccessful": "Gong was Deleted Successfully",
+      "courseDeletedSuccessful": "Course was Deleted Successful"
     }
   },
   "main": {
