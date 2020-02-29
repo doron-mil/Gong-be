@@ -53,7 +53,8 @@
       "gongUploadFailed": "טעינת גונג נכשלה",
       "lastGongIsInUse": "גונג נמצא בשימוש ע\"י אחת מתבניות הקורס ולכן לא ניתן למחיקה",
       "lastGongNotFound": "לא נמצא קובץ גונג אחרון",
-      "resetUserPasswordSuccessful": "עדכון ססמא למשתמש עבר בהצלחה"
+      "resetUserPasswordSuccessful": "עדכון ססמא למשתמש עבר בהצלחה",
+      "gongDeletedSuccessful": " הגונג נמחק בהצלחה"
     }
   },
   "main": {

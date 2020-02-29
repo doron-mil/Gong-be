@@ -53,7 +53,8 @@
       "gongUploadFailed": "Gong Upload Request failed",
       "lastGongIsInUse": "gong is in use by one of the courses templates and cannot be deleted",
       "lastGongNotFound": "Last Gong was not found",
-      "resetUserPasswordSuccessful": "Reseting User Password was Successful"
+      "resetUserPasswordSuccessful": "Reseting User Password was Successful",
+      "gongDeletedSuccessful": "Gong was Deleted Successfully"
     }
   },
   "main": {

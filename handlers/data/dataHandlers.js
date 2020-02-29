@@ -189,6 +189,16 @@ function uploadGong(req, res, next) {
   form.parse(req);
 }
 
+async function deleteGongFile(req, res, next) {
+  try {
+    await persistManager.deleteGong(req.body.gongId);
+    responder.send200Response(res);
+  } catch (e) {
+    responder.sendErrorResponse(res, 500, 'Error in uploadGong ', e, req);
+    logger.error('uploadCourses Failed', { error: e });
+  }
+}
+
 function languagesUpdate(req, res, next) {
   const retLanguagesUpdatePromise = persistManager.updateLanguages(req.body);
 
@@ -274,6 +284,7 @@ module.exports = {
   scheduleCourse,
   uploadCourses,
   uploadGong,
+  deleteGongFile,
   languagesUpdate,
   removeScheduledCourse,
   addUser,
