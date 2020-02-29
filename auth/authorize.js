@@ -1,14 +1,14 @@
 const expressJwt = require('express-jwt');
 const moment = require('moment');
 
-const authConfig = require('./authConfig');
+const utilsManager = require('../lib/utilsManager');
 const responder = require('../lib/responder');
 
 const secretCallback = (req, payload, done) => {
   const { sub } = payload;
   let foundSecret;
   if (sub) {
-    const authUser = authConfig.get(sub.toLowerCase());
+    const authUser = utilsManager.usersMap.get(sub.toLowerCase());
     if (authUser) {
       foundSecret = authUser.tokenSecret;
       done(null, foundSecret);

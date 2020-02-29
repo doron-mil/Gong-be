@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const authConfig = require('./authConfig');
+const utilsManager = require('../lib/utilsManager');
 
 async function authenticatePassword(aPassword, aUserConfig) {
   return bcrypt.compare(aPassword, aUserConfig.encodedPasswd);
@@ -8,7 +8,7 @@ async function authenticatePassword(aPassword, aUserConfig) {
 
 async function authenticate({ username, password }) {
   if (username && password) {
-    const userConfig = authConfig.get(username.toLowerCase());
+    const userConfig = utilsManager.usersMap.get(username.toLowerCase());
     if (userConfig) {
       const retToken = await authenticatePassword(password, userConfig)
         .then((res) => {
