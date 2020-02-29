@@ -160,20 +160,12 @@ function uploadGong(req, res, next) {
 
   form.on('file', async (field, file) => {
     try {
-      await persistManager.addGong(file.name);
+      await persistManager.addGong(file.name,file.path);
+      responder.send200Response(res);
     } catch (e) {
       responder.sendErrorResponse(res, 500, 'Error in uploadGong ', e, req);
       logger.error('uploadCourses Failed', { error: e });
-      return;
     }
-    fs.copyFile(file.path, `assets/sounds/${file.name}`, fs.constants.COPYFILE_FICLONE, (err) => {
-      if (!err) {
-        responder.send200Response(res);
-      } else {
-        responder.sendErrorResponse(res, 500, 'Error in uploadGong : problem copying file', err, req);
-        logger.error('uploadGong Failed : problem copying file', { error: err });
-      }
-    });
   });
 
   form.on('error', (err) => {
