@@ -168,13 +168,19 @@ async function removeCourse(req, res, next) {
 function uploadGong(req, res, next) {
   const form = new IncomingForm();
 
-  form.on('file', async (field, file) => {
-    try {
-      await persistManager.addGong(file.name, file.path);
-      responder.send200Response(res);
-    } catch (e) {
-      responder.sendErrorResponse(res, 500, 'Error in uploadGong ', e, req);
-      logger.error('uploadCourses Failed', { error: e });
+  form.parse(req, async (err, fields, files) => {
+    if (err) {
+      responder.sendErrorResponse(res, 500, 'Error in uploadGong ', err);
+    } else {
+      try {
+        const { file } = files;
+        const { gongId } = fields;
+        await persistManager.addOrUpdateGong(file.name, file.path, gongId);
+        responder.send200Response(res);
+      } catch (e) {
+        responder.sendErrorResponse(res, 500, 'Error in uploadGong ', e, req);
+        logger.error('uploadCourses Failed', { error: e });
+      }
     }
   });
 
