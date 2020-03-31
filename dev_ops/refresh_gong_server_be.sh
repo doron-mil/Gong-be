@@ -10,6 +10,7 @@ echo
 
 set -v
 USER=$1
+USER_PASS=$2
 
 cd "/home/${USER}/projects/Gong-be"
 rm -rf node_modules
@@ -36,7 +37,8 @@ set +v
 echo -e "----------------------------------------------------------------------------------------------------"
 
 set -v
-npm run build
+export HISTIGNORE='*sudo -S*'
+sudo -S npm run build <<< "${USER_PASS}"
 
 set +v
 echo -e "----------------------------------------------------------------------------------------------------"

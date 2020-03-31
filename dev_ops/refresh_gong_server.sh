@@ -21,7 +21,7 @@ echo
 
 set -v
 /home/"${USER}"/projects/gong_dev_ops/dev_ops/server_stop.sh "${USER}" "${USER_PASS}" "${IS_DOCKER}" 2>&1 | tee -a "${new_log_file}"
-/home/"${USER}"/projects/gong_dev_ops/dev_ops/refresh_gong_server_be.sh "${USER}" 2>&1 | tee -a "${new_log_file}"
+/home/"${USER}"/projects/gong_dev_ops/dev_ops/refresh_gong_server_be.sh "${USER}" "${USER_PASS}" 2>&1 | tee -a "${new_log_file}"
 /home/"${USER}"/projects/gong_dev_ops/dev_ops/refresh_gong_server_fe.sh "${USER}" 2>&1 | tee -a "${new_log_file}"
 /home/"${USER}"/projects/gong_dev_ops/dev_ops/server_start.sh "${USER}" "${USER_PASS}" "${IS_DOCKER}" 2>&1 | tee -a "${new_log_file}"
 set +v
