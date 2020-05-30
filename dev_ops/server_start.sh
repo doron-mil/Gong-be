@@ -15,7 +15,7 @@ echo
 echo -e "----------------------------------------------------------------------------------------------------"
 
 set -v
-/home/"${USER}"/projects/gong_dev_ops/dev_ops/restore_files.sh "${USER}"
+/home/"${USER}"/projects/gong_dev_ops/dev_ops/restore_files.sh "${USER}" "${USER_PASS}" "${IS_DOCKER}"
 
 set +v
 echo -e "----------------------------------------------------------------------------------------------------"
