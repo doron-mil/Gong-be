@@ -193,8 +193,6 @@ function uploadGong(req, res, next) {
   form.on('end', () => {
     logger.info('uploadGong : Upload ended');
   });
-
-  form.parse(req);
 }
 
 async function deleteGongFile(req, res, next) {
