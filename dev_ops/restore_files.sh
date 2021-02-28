@@ -12,7 +12,7 @@ echo
 echo
 
 set -v
-cp -rf  "/home/${USER}/projects/gong_backups/0_last_update/assets/*" "/home/${USER}/projects/gong_server/assets/"
+sudo -S cp -rf  "/home/${USER}/projects/gong_backups/0_last_update/assets/*" "/home/${USER}/projects/gong_server/assets/"  <<< "${USER_PASS}"
 
 DEV_OPS_DIR=/home/"${USER}"/projects/gong_dev_ops
 #DEV_OPS_DIR=~/WebstormProjects/vipassana/"${USER}"/dev_ops

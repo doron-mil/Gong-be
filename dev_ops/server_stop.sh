@@ -24,13 +24,13 @@ set +v
 echo -e "----------------------------------------------------------------------------------------------------"
 
 set -v
-logrotate "/home/${USER}/projects/gong_dev_ops/dev_ops/gong_logrotate"  -fv -s "/home/${USER}/projects/gong_dev_ops/t_logrotate_state"
+sudo -S logrotate "/home/${USER}/projects/gong_dev_ops/dev_ops/gong_logrotate"  -fv -s "/home/${USER}/projects/gong_dev_ops/t_logrotate_state" <<< "${USER_PASS}"
 
 set +v
 echo -e "----------------------------------------------------------------------------------------------------"
 
 set -v
-/home/"${USER}"/projects/gong_dev_ops/dev_ops/backup_files.sh "${USER}"
+/home/"${USER}"/projects/gong_dev_ops/dev_ops/backup_files.sh "${USER}" "${USER_PASS}"
 
 set +v
 echo -e "----------------------------------------------------------------------------------------------------"

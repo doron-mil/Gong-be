@@ -1,6 +1,7 @@
 #!/bin/bash
 
 USER=$1
+USER_PASS=$2
 
 set +v
 
@@ -14,12 +15,12 @@ set -v
 
 now=$(date +"%Y_%m_%d_%H_%M_%S")
 
-mkdir -p "/home/${USER}/projects/gong_backups"
-mkdir "/home/${USER}/projects/gong_backups/${now}"
-mkdir -p "/home/${USER}/projects/gong_backups/0_last_update"
-rm -rf "/home/${USER}/projects/gong_backups/0_last_update/*"
-cp -r "/home/${USER}/projects/gong_server/assets/" "/home/${USER}/projects/gong_backups/${now}"
-cp -r "/home/${USER}/projects/gong_server/assets/" "/home/${USER}/projects/gong_backups/0_last_update"
+sudo -S mkdir -p "/home/${USER}/projects/gong_backups" <<< "${USER_PASS}"
+sudo -S mkdir "/home/${USER}/projects/gong_backups/${now}" <<< "${USER_PASS}"
+sudo -S mkdir -p "/home/${USER}/projects/gong_backups/0_last_update" <<< "${USER_PASS}"
+sudo -S rm -rf "/home/${USER}/projects/gong_backups/0_last_update/*" <<< "${USER_PASS}"
+sudo -S cp -r "/home/${USER}/projects/gong_server/assets/" "/home/${USER}/projects/gong_backups/${now}" <<< "${USER_PASS}"
+sudo -S cp -r "/home/${USER}/projects/gong_server/assets/" "/home/${USER}/projects/gong_backups/0_last_update" <<< "${USER_PASS}"
 
 set +v
 
